@@ -1,221 +1,203 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>綜合施工處 每日工程日誌系統</title>
+  <title>蝬??賢極??瘥撌亦??亥?蝟餌絞</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <link rel="stylesheet" href="./style.css?v=6">
+  <link rel="stylesheet" href="./style.css?v=5">
 </head>
 
 <body>
-  <!-- 動態背景 -->
+  <!-- ??? -->
   <div class="bg-animation">
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
   </div>
 
-  <!-- 登入模態框 -->
+  <!-- ?餃璅⊥?獢?-->
   <div id="loginModal" class="modal" style="display: none;">
     <div class="modal-content" style="max-width: 450px;">
       <div class="modal-header">
         <h2 class="modal-title">
-          <span class="modal-icon">🔐</span>
-          登入系統
+          <span class="modal-icon">??</span>
+          ?餃蝟餌絞
         </h2>
-        <button type="button" class="modal-close" onclick="hideLoginInterface()">✕</button>
+        <button type="button" class="modal-close" onclick="hideLoginInterface()">??/button>
       </div>
 
       <div class="modal-body">
         <form id="loginForm">
           <div class="form-group">
             <label class="form-label">
-              <span class="label-icon">👤</span>
-              <span>帳號或信箱</span>
+              <span class="label-icon">?</span>
+              <span>撣唾??縑蝞?/span>
             </label>
-            <input type="text" id="loginIdentifier" class="form-input" required placeholder="請輸入帳號或電子信箱"
+            <input type="text" id="loginIdentifier" class="form-input" required placeholder="隢撓?亙董???餃?靽∠拳"
               autocomplete="username">
           </div>
 
           <div class="form-group">
             <label class="form-label">
-              <span class="label-icon">🔒</span>
-              <span>密碼</span>
+              <span class="label-icon">??</span>
+              <span>撖Ⅳ</span>
             </label>
             <div class="password-input-wrapper">
               <input type="password" id="loginPassword" class="form-input password-input" required
-                placeholder="預設密碼：29340505" autocomplete="current-password">
-              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()" title="顯示/隱藏密碼">
-                <span id="passwordToggleIcon">👁️</span>
+                placeholder="?身撖Ⅳ嚗?9340505" autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()" title="憿舐內/?梯?撖Ⅳ">
+                <span id="passwordToggleIcon">??儭?/span>
               </button>
             </div>
           </div>
 
           <div class="form-actions">
             <button type="button" class="btn btn-secondary" onclick="hideLoginInterface()">
-              <span class="btn-icon">✕</span>
-              <span>取消</span>
+              <span class="btn-icon">??/span>
+              <span>??</span>
             </button>
             <button type="submit" class="btn btn-primary">
-              <span class="btn-icon">🚀</span>
-              <span>登入</span>
+              <span class="btn-icon">??</span>
+              <span>?餃</span>
             </button>
-          </div>
-
-          <div style="text-align: center; margin: var(--spacing-lg) 0; position: relative;">
-            <hr style="border: 0; border-top: 1px solid var(--gray-300); margin: 0;">
-            <span
-              style="background: white; padding: 0 10px; color: var(--text-muted); position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 0.85rem;">或</span>
-          </div>
-
-          <div style="display: flex; justify-content: center; margin-bottom: 0;">
-            <div id="g_id_onload"
-              data-client_id="62340397596-cd3pfo4me39v4rgmq96iaknter75lga9.apps.googleusercontent.com"
-              data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse"
-              data-auto_prompt="false">
-            </div>
-            <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
-              data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="250">
-            </div>
           </div>
         </form>
 
-        <div style="text-align: center; margin-top: var(--spacing-lg);">
+        <div style="text-align: center; margin-top: var(--spacing);">
           <a href="#" onclick="showForgotPasswordModal(); return false;"
             style="color: var(--primary); text-decoration: none; font-size: 0.9rem; cursor: pointer;">
-            🔑 忘記密碼？
+            ?? 敹?撖Ⅳ嚗?
           </a>
         </div>
 
         <div
           style="margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--gray-300);">
           <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">
-            <strong>💡 提示</strong>
+            <strong>? ?內</strong>
           </p>
           <p style="font-size: 0.85rem; color: var(--text-muted);">
-            可使用「填表人資料」中的帳號或信箱登入
+            ?臭蝙?具‵銵其犖鞈??葉?董??靽∠拳?餃
           </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 隱藏的舊登入容器（保持兼容性） -->
+  <!-- ?梯????餃摰孵嚗??摰寞改? -->
   <div id="loginContainer" style="display: none;"></div>
 
-  <!-- 主介面容器 -->
+  <!-- 銝颱??Ｗ捆??-->
   <div id="mainContainer" class="container" style="display: none;">
 
-    <!-- 頁首 -->
+    <!-- ?? -->
     <header class="header">
       <div class="header-content">
         <div class="header-left">
-          <div class="header-icon">🏗️</div>
+          <div class="header-icon">??儭?/div>
           <div>
-            <h1 class="header-title">綜合施工處 每日工程日誌系統</h1>
+            <h1 class="header-title">蝬??賢極??瘥撌亦??亥?蝟餌絞</h1>
             <p class="header-subtitle">Construction Daily Log Management System</p>
           </div>
         </div>
 
         <div class="header-right">
-          <!-- 訪客模式登入按鈕 -->
+          <!-- 閮芸恥璅∪??餃?? -->
           <div id="guestLoginBtn" style="display: none;">
             <button type="button" class="btn btn-primary" onclick="showLoginInterface()">
-              <span class="btn-icon">🔓</span>
-              <span>登入</span>
+              <span class="btn-icon">??</span>
+              <span>?餃</span>
             </button>
           </div>
 
-          <!-- 使用者資訊 -->
+          <!-- 雿輻??閮?-->
           <div id="userInfoPanel" class="user-info-display" style="display: none;">
             <div class="user-info-content">
-              <div class="user-info-icon">👤</div>
+              <div class="user-info-icon">?</div>
               <div class="user-info-text">
-                <div class="user-info-name" id="currentUserName">使用者名稱</div>
-                <div class="user-info-role" id="currentUserRole">角色</div>
+                <div class="user-info-name" id="currentUserName">雿輻??蝔?/div>
+                <div class="user-info-role" id="currentUserRole">閫</div>
               </div>
             </div>
             <button id="helpBtn" type="button" class="btn btn-secondary" style="display: none;"
-              onclick="showRoleGuideModal()" title="查看使用說明">
-              <span class="btn-icon">❓</span>
-              <span>使用說明</span>
+              onclick="showRoleGuideModal()" title="?亦?雿輻隤芣?">
+              <span class="btn-icon">??/span>
+              <span>雿輻隤芣?</span>
             </button>
             <button id="changePasswordBtn" type="button" class="btn btn-secondary" style="display: none;"
               onclick="showChangePasswordModal()">
-              <span class="btn-icon">🔑</span>
-              <span>變更密碼</span>
+              <span class="btn-icon">??</span>
+              <span>霈撖Ⅳ</span>
             </button>
             <button id="logoutBtn" type="button" class="btn btn-secondary" style="display: none;">
-              <span class="btn-icon">🚪</span>
-              <span>登出</span>
+              <span class="btn-icon">?</span>
+              <span>?餃</span>
             </button>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- 頁籤導覽 -->
+    <!-- ?惜撠汗 -->
     <div class="tabs">
       <button class="tab active" data-tab="summaryReport">
-        <span class="tab-icon">📊</span>
-        <span class="tab-text">每日總表</span>
+        <span class="tab-icon">??</span>
+        <span class="tab-text">瘥蝮質”</span>
       </button>
       <button class="tab tab-dashboard" data-tab="dashboard" style="display: none;">
-        <span class="tab-icon">📉</span>
-        <span class="tab-text">儀表板</span>
+        <span class="tab-icon">??</span>
+        <span class="tab-text">?銵冽</span>
       </button>
       <button class="tab" data-tab="logEntry">
-        <span class="tab-icon">📝</span>
-        <span class="tab-text">日誌填報</span>
+        <span class="tab-icon">??</span>
+        <span class="tab-text">?亥?憛怠</span>
       </button>
       <button class="tab tab-logStatus" data-tab="logStatus">
-        <span class="tab-icon">📈</span>
-        <span class="tab-text">填報狀況</span>
+        <span class="tab-icon">??</span>
+        <span class="tab-text">憛怠?瘜?/span>
       </button>
       <button class="tab" data-tab="projectSetup">
-        <span class="tab-icon">⚙️</span>
-        <span class="tab-text">工程設定</span>
+        <span class="tab-icon">??</span>
+        <span class="tab-text">撌亦?閮剖?</span>
       </button>
       <button class="tab tab-inspectorManagement" data-tab="inspectorManagement">
-        <span class="tab-icon">👥</span>
-        <span class="tab-text">檢驗員管理</span>
+        <span class="tab-icon">?</span>
+        <span class="tab-text">瑼ａ??∠恣??/span>
       </button>
       <button class="tab tab-userManagement" data-tab="userManagement" style="display: none;">
-        <span class="tab-icon">🔐</span>
-        <span class="tab-text">使用者管理</span>
+        <span class="tab-icon">??</span>
+        <span class="tab-text">雿輻?恣??/span>
       </button>
     </div>
 
     <!-- ============================================ -->
-    <!-- 頁籤1：日誌填報 -->
+    <!-- ?惜1嚗隤‵??-->
     <!-- ============================================ -->
     <div id="logEntry" class="tab-pane">
 
-      <!-- 未填寫提醒（改為多卡片顯示） -->
+      <!-- ?芸‵撖急????寧憭?＊蝷綽? -->
       <div id="unfilledCardsContainer" style="display: none; margin-bottom: var(--spacing-lg);">
-        <!-- 動態生成提醒卡片 -->
+        <!-- ???????∠? -->
       </div>
 
-      <!-- 假日提示 -->
+      <!-- ??內 -->
       <div id="holidayAlert" class="alert-holiday" style="display: none;">
         <div class="holiday-alert-content">
-          <div class="holiday-icon">🏖️</div>
+          <div class="holiday-icon">??儭?/div>
           <div class="holiday-info">
-            <strong id="holidayDateInfo">假日資訊</strong>
+            <strong id="holidayDateInfo">?鞈?</strong>
             <p id="holidayRemark" class="holiday-remark"></p>
 
             <div style="margin-top: 0.5rem; display: flex; gap: 1rem; font-weight: 600; color: var(--warning-dark);">
               <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
-                <input type="checkbox" id="checkSat"> 六
+                <input type="checkbox" id="checkSat"> ??
               </label>
               <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
-                <input type="checkbox" id="checkSun"> 日
+                <input type="checkbox" id="checkSun"> ??
               </label>
               <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
-                <input type="checkbox" id="checkHoliday"> 例假
+                <input type="checkbox" id="checkHoliday"> 靘?
               </label>
             </div>
           </div>
@@ -223,25 +205,25 @@
       </div>
 
       <!-- ============================================ -->
-      <!-- 頁籤：儀表板 -->
+      <!-- ?惜嚗?銵冽 -->
       <!-- ============================================ -->
       <div id="dashboard" class="tab-pane">
         <div
           style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
           <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">總工程數</div>
+            <div style="font-size: 0.9rem; color: #666;">蝮賢極蝔</div>
             <div id="dash-total-projects" style="font-size: 2.5rem; font-weight: bold; color: #333;">-</div>
           </div>
           <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">已填報</div>
+            <div style="font-size: 0.9rem; color: #666;">撌脣‵??/div>
             <div id="dash-filled-count" style="font-size: 2.5rem; font-weight: bold; color: var(--success);">-</div>
           </div>
           <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">假日不施工</div>
+            <div style="font-size: 0.9rem; color: #666;">?銝撌?/div>
             <div id="dash-holiday-nowork" style="font-size: 2.5rem; font-weight: bold; color: var(--info);">-</div>
           </div>
           <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">填報率</div>
+            <div style="font-size: 0.9rem; color: #666;">憛怠??/div>
             <div id="dash-completion-rate" style="font-size: 2.5rem; font-weight: bold; color: var(--warning);">-</div>
           </div>
         </div>
@@ -259,97 +241,78 @@
         </div>
       </div>
 
-      <!-- 填報表單 -->
+      <!-- 憛怠銵典 -->
       <div class="glass-card">
         <div class="card-header">
           <div class="card-header-content">
-            <div class="card-icon">📝</div>
+            <div class="card-icon">??</div>
             <div>
-              <h2 class="card-title">每日施工日誌填報</h2>
-              <p class="card-desc">請填寫明日預定施工內容</p>
+              <h2 class="card-title">瘥?賢極?亥?憛怠</h2>
+              <p class="card-desc">隢‵撖急??仿?摰撌亙摰?/p>
             </div>
           </div>
           <button type="button" class="btn btn-secondary" onclick="copyLastWorkItems()" style="margin-left: auto;">
-            <span class="btn-icon">📋</span>
-            <span>複製上次填寫</span>
+            <span class="btn-icon">??</span>
+            <span>銴ˊ銝活憛怠神</span>
           </button>
-          <!-- [新增] 批次假日設定按鈕 -->
+          <!-- [?啣?] ?寞活?閮剖??? -->
           <button type="button" class="btn btn-warning" onclick="showBatchHolidayModal()" style="margin-left: 0.5rem;">
-            <span class="btn-icon">📅</span>
-            <span>批次假日設定</span>
+            <span class="btn-icon">??</span>
+            <span>?寞活?閮剖?</span>
           </button>
         </div>
 
         <form id="dailyLogForm">
 
-          <!-- 基本資訊 -->
+          <!-- ?箸鞈? -->
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">
-                <span class="label-icon">📅</span>
-                <span>填報日期 <span class="required">*</span></span>
+                <span class="label-icon">??</span>
+                <span>憛怠?交? <span class="required">*</span></span>
               </label>
               <input type="date" id="logDatePicker" class="form-input" required>
             </div>
 
             <div class="form-group">
               <label class="form-label">
-                <span class="label-icon">🏗️</span>
-                <span>工程名稱 <span class="required">*</span></span>
+                <span class="label-icon">??儭?/span>
+                <span>撌亦??迂 <span class="required">*</span></span>
               </label>
               <select id="logProjectSelect" class="form-select" required>
-                <option value="">請選擇工程</option>
+                <option value="">隢?極蝔?/option>
               </select>
             </div>
           </div>
 
-          <!-- 假日施工選項 -->
+          <!-- ??賢極?賊? -->
           <div id="holidayWorkGroup" class="form-group" style="display: none;">
             <label class="form-label">
-              <span class="label-icon">🏗️</span>
-              <span>假日施工選項</span>
+              <span class="label-icon">??儭?/span>
+              <span>??賢極?賊?</span>
             </label>
 
             <div class="checkbox-item-holiday">
               <input type="checkbox" id="isHolidayWork" name="holidayOption">
-              <span>✓ 假日施工（照常施工）</span>
+              <span>????賢極嚗撣豢撌伐?</span>
             </div>
 
             <div class="checkbox-item-holiday-no-work">
               <input type="checkbox" id="isHolidayNoWork" name="holidayOption">
-              <span>🏖️ 假日不施工（停止施工）</span>
-            </div>
-
-            <!-- [新增] 假日不施工細項勾選 -->
-            <div id="holidayNoWorkDetails" style="display: none; padding-left: 2rem; margin-top: 0.5rem; gap: 1rem;">
-              <label class="filter-option"
-                style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
-                <input type="checkbox" id="checkSatNoWork" value="星期六">
-                <span>六</span>
-              </label>
-              <label class="filter-option"
-                style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
-                <input type="checkbox" id="checkSunNoWork" value="星期日">
-                <span>日</span>
-              </label>
-              <label class="filter-option"
-                style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
-                <input type="checkbox" id="checkHolidayNoWork" value="例假">
-                <span>例假</span>
-              </label>
+              <span>??儭??銝撌伐??迫?賢極嚗?/span>
             </div>
           </div>
 
-          <!-- 檢驗員選擇 -->
+          <!-- 瑼ａ??⊿??-->
           <div id="inspectorGroup" class="form-group">
             <div
               style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-sm);">
               <label class="form-label" style="margin-bottom: 0;">
-                <span class="label-icon">👥</span>
-                <span>檢驗員 <span class="required">*</span></span>
+                <span class="label-icon">?</span>
+                <span>瑼ａ???<span class="required">*</span></span>
               </label>
               <button type="button" id="changeInspectorBtn" class="btn btn-secondary btn-mini" style="display: none;">
-                <span>✏️ 修改檢驗員</span>
+                <span>?? 靽格瑼ａ???/span>
               </button>
             </div>
             <div id="inspectorDisplay"
@@ -357,65 +320,65 @@
               <div id="inspectorDisplayText" style="color: var(--text-primary); font-weight: 600;"></div>
             </div>
             <div id="inspectorCheckboxes" class="checkbox-grid" style="display: none;">
-              <!-- 動態生成 -->
+              <!-- ???? -->
             </div>
           </div>
 
-          <!-- 施工人數 -->
+          <!-- ?賢極鈭箸 -->
           <div id="workersCountGroup" class="form-group">
             <label class="form-label">
-              <span class="label-icon">🧑‍🔧</span>
-              <span>施工人數 <span class="required">*</span></span>
+              <span class="label-icon">?????/span>
+              <span>?賢極鈭箸 <span class="required">*</span></span>
             </label>
-            <input type="number" id="logWorkersCount" class="form-input" min="0" required placeholder="請輸入施工人數">
+            <input type="number" id="logWorkersCount" class="form-input" min="0" required placeholder="隢撓?交撌乩犖??>
           </div>
 
-          <!-- 修正7：工項配對區（改為「新增工項」） -->
+          <!-- 靽格迤7嚗極??撠?嚗?箝憓極?? -->
           <div id="workItemsGroup" class="form-group">
             <label class="form-label">
-              <span class="label-icon">🛠️</span>
-              <span>工作項目與災害配對 <span class="required">*</span></span>
+              <span class="label-icon">??儭?/span>
+              <span>撌乩???摰喲?撠?<span class="required">*</span></span>
             </label>
 
             <div id="workItemsContainer">
-              <!-- 動態生成工項 -->
+              <!-- ????撌仿? -->
             </div>
 
             <button type="button" id="addWorkItemBtn" class="btn btn-secondary" style="margin-top: 1rem;">
-              <span class="btn-icon">➕</span>
-              <span>新增工項</span>
+              <span class="btn-icon">??/span>
+              <span>?啣?撌仿?</span>
             </button>
           </div>
 
-          <!-- 提交按鈕 -->
+          <!-- ?漱?? -->
           <button type="submit" class="btn btn-primary btn-lg">
-            <span class="btn-icon">📤</span>
-            <span>提交日誌</span>
+            <span class="btn-icon">?</span>
+            <span>?漱?亥?</span>
           </button>
         </form>
       </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- 頁籤2：每日預定工程日誌總表 -->
+    <!-- ?惜2嚗??仿?摰極蝔隤蜇銵?-->
     <!-- ============================================ -->
     <div id="summaryReport" class="tab-pane active">
 
-      <!-- 訪客模式卡片（未登入時顯示） -->
+      <!-- 閮芸恥璅∪??∠?嚗?餃?＊蝷綽? -->
       <div id="guestSummaryCards" style="display: none; margin-bottom: 2rem;">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
           <div
             style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 16px; padding: 2rem; color: white; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3); position: relative;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 1rem;">
-                <span style="font-size: 2.5rem;">📅</span>
-                <span id="guestDateLabel" style="font-size: 1.1rem; font-weight: 600; opacity: 0.9;">日誌日期</span>
+                <span style="font-size: 2.5rem;">??</span>
+                <span id="guestDateLabel" style="font-size: 1.1rem; font-weight: 600; opacity: 0.9;">?亥??交?</span>
               </div>
               <div style="display: flex; gap: 0.5rem;">
                 <button type="button" id="guestBtnToday" class="guest-mode-btn active"
-                  onclick="toggleGuestDate('today')">今日</button>
+                  onclick="toggleGuestDate('today')">隞</button>
                 <button type="button" id="guestBtnTomorrow" class="guest-mode-btn"
-                  onclick="toggleGuestDate('tomorrow')">明日</button>
+                  onclick="toggleGuestDate('tomorrow')">?</button>
               </div>
             </div>
             <div id="guestDateDisplay" style="font-size: 2rem; font-weight: 700; margin-top: 0.75rem;">
@@ -426,115 +389,115 @@
           <div
             style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 16px; padding: 2rem; color: white; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);">
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-              <span style="font-size: 2.5rem;">🏗️</span>
-              <span id="guestProjectLabel" style="font-size: 1.1rem; font-weight: 600; opacity: 0.9;">明日施工工程</span>
+              <span style="font-size: 2.5rem;">??儭?/span>
+              <span id="guestProjectLabel" style="font-size: 1.1rem; font-weight: 600; opacity: 0.9;">??賢極撌亦?</span>
             </div>
             <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.75rem;">
               <span id="guestProjectCount" style="font-size: 2.5rem; font-weight: 700;">0</span>
-              <span style="font-size: 1.2rem; opacity: 0.9;">項</span>
+              <span style="font-size: 1.2rem; opacity: 0.9;">??/span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 控制區 -->
+      <!-- ?批? -->
       <div class="summary-controls">
         <div class="control-group">
           <label class="form-label">
-            <span class="label-icon">📅</span>
-            <span>選擇日期</span>
+            <span class="label-icon">??</span>
+            <span>?豢??交?</span>
           </label>
           <input type="date" id="summaryDatePicker" class="form-input">
         </div>
 
         <div class="control-group">
           <label class="form-label">
-            <span class="label-icon">🏢</span>
-            <span>部門篩選</span>
+            <span class="label-icon">?</span>
+            <span>?券?蝭拚</span>
           </label>
           <select id="summaryDeptFilter" class="form-select">
-            <option value="all">全部部門</option>
+            <option value="all">?券?券?</option>
           </select>
         </div>
 
-        <!-- [新增] 檢驗員篩選 -->
+        <!-- [?啣?] 瑼ａ??∠祟??-->
         <div class="control-group">
           <label class="form-label">
-            <span class="label-icon">👥</span>
-            <span>檢驗員篩選</span>
+            <span class="label-icon">?</span>
+            <span>瑼ａ??∠祟??/span>
           </label>
           <select id="summaryInspectorFilter" class="form-select">
-            <option value="all">全部檢驗員</option>
+            <option value="all">?券瑼ａ???/option>
           </select>
         </div>
 
         <div class="control-group">
           <label class="form-label">
-            <span class="label-icon">🔍</span>
-            <span>工程狀態</span>
+            <span class="label-icon">??</span>
+            <span>撌亦????/span>
           </label>
           <div class="filter-toggle">
             <label class="filter-option">
               <input type="radio" name="summaryStatusFilter" value="all">
-              <span>全部工程</span>
+              <span>?券撌亦?</span>
             </label>
             <label class="filter-option">
               <input type="radio" name="summaryStatusFilter" value="active" checked>
-              <span>施工中</span>
+              <span>?賢極銝?/span>
             </label>
           </div>
         </div>
 
         <div class="control-group">
           <button id="refreshSummary" class="btn btn-primary" style="margin-top: 1.75rem;">
-            <span class="btn-icon">🔄</span>
-            <span>重新整理</span>
+            <span class="btn-icon">??</span>
+            <span>??渡?</span>
           </button>
         </div>
       </div>
 
-      <!-- 模式切換 -->
+      <!-- 璅∪??? -->
       <div class="glass-card">
         <div class="card-header">
           <div class="card-header-content">
-            <div class="card-icon">📊</div>
+            <div class="card-icon">??</div>
             <div>
-              <h2 class="card-title">每日預定工程日誌總表</h2>
+              <h2 class="card-title">瘥??撌亦??亥?蝮質”</h2>
             </div>
           </div>
           <div id="modeToggle" class="mode-toggle">
             <button class="mode-btn active" data-mode="list">
-              <span>📋 列表模式</span>
+              <span>?? ?”璅∪?</span>
             </button>
             <button id="calendarModeBtn" class="mode-btn" data-mode="calendar">
-              <span>📅 日曆模式</span>
+              <span>?? ?交?璅∪?</span>
             </button>
           </div>
         </div>
 
-        <!-- 列表檢視 -->
+        <!-- ?”瑼Ｚ? -->
         <div id="summaryListView">
           <div class="summary-table-container">
             <table class="summary-table">
               <thead id="summaryTableHead">
                 <tr>
-                  <th>序號</th>
-                  <th>工程名稱</th>
-                  <th>承攬商</th>
-                  <th>部門</th>
-                  <th>檢驗員</th>
-                  <th>工地負責人</th>
-                  <th>職安人員</th>
-                  <th>工作地址</th>
-                  <th>施工人數</th>
-                  <th>主要工作項目</th>
-                  <th>主要災害類型</th>
-                  <th>操作</th>
+                  <th>摨?</th>
+                  <th>撌亦??迂</th>
+                  <th>?踵??/th>
+                  <th>?券?</th>
+                  <th>瑼ａ???/th>
+                  <th>撌亙鞎痊鈭?/th>
+                  <th>?瑕?鈭箏</th>
+                  <th>撌乩??啣?</th>
+                  <th>?賢極鈭箸</th>
+                  <th>銝餉?撌乩??</th>
+                  <th>銝餉??賢拿憿?</th>
+                  <th>??</th>
                 </tr>
               </thead>
               <tbody id="summaryTableBody">
                 <tr>
-                  <td colspan="12" class="text-muted">請選擇日期載入資料</td>
+                  <td colspan="12" class="text-muted">隢????亥???/td>
                 </tr>
               </tbody>
             </table>
@@ -550,208 +513,208 @@
 
 
 
-        <!-- 日曆檢視 -->
+        <!-- ?交?瑼Ｚ? -->
         <div id="summaryCalendarView" style="display: none;">
           <div class="calendar-header">
             <button class="btn btn-secondary" onclick="changeMonth(-1)">
-              <span>◀ 上個月</span>
+              <span>? 銝?</span>
             </button>
-            <h3 id="calendarTitle">2025年1月</h3>
+            <h3 id="calendarTitle">2025撟???/h3>
             <button class="btn btn-secondary" onclick="changeMonth(1)">
-              <span>下個月 ▶</span>
+              <span>銝? ??/span>
             </button>
           </div>
           <div id="calendarGrid" class="calendar-grid">
-            <!-- 動態生成 -->
+            <!-- ???? -->
           </div>
         </div>
       </div>
 
-      <!-- TBM-KY 生成 -->
+      <!-- TBM-KY ?? -->
       <div id="tbmkyCard" class="glass-card">
         <div class="card-header">
           <div class="card-header-content">
-            <div class="card-icon">📋</div>
+            <div class="card-icon">??</div>
             <div>
-              <h2 class="card-title">TBM-KY 文件生成</h2>
-              <p class="card-desc">依據日誌內容自動生成 TBM-KY 文件</p>
+              <h2 class="card-title">TBM-KY ?辣??</h2>
+              <p class="card-desc">靘??亥??批捆?芸??? TBM-KY ?辣</p>
             </div>
           </div>
         </div>
         <button id="generateTBMKYBtn" class="btn btn-success btn-lg">
-          <span class="btn-icon">📄</span>
-          <span>生成 TBM-KY 文件</span>
+          <span class="btn-icon">??</span>
+          <span>?? TBM-KY ?辣</span>
         </button>
       </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- 頁籤3：日誌填報狀況總覽 -->
+    <!-- ?惜3嚗隤‵?梁?瘜蜇閬?-->
     <!-- ============================================ -->
     <div id="logStatus" class="tab-pane">
 
       <div class="glass-card">
         <div class="card-header">
           <div class="card-header-content">
-            <div class="card-icon">📈</div>
+            <div class="card-icon">??</div>
             <div>
-              <h2 class="card-title">日誌填報狀況總覽</h2>
-              <p class="card-desc">明日（<span id="statusTomorrowDate"></span>）填報進度</p>
+              <h2 class="card-title">?亥?憛怠?瘜蜇閬?/h2>
+              <p class="card-desc">?嚗?span id="statusTomorrowDate"></span>嚗‵?梢脣漲</p>
             </div>
           </div>
           <button id="refreshLogStatus" class="btn btn-secondary">
-            <span class="btn-icon">🔄</span>
-            <span>重新整理</span>
+            <span class="btn-icon">??</span>
+            <span>??渡?</span>
           </button>
         </div>
 
-        <!-- 統計卡片 -->
+        <!-- 蝯梯??∠? -->
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-value" id="statTotalProjects">0</div>
-            <div class="stat-label">施工中工程</div>
+            <div class="stat-label">?賢極銝剖極蝔?/div>
           </div>
           <div class="stat-card">
             <div class="stat-value" id="statFilledTomorrow">0</div>
-            <div class="stat-label">已填寫</div>
+            <div class="stat-label">撌脣‵撖?/div>
           </div>
           <div class="stat-card">
             <div class="stat-value" id="statCompletionRate">0%</div>
-            <div class="stat-label">完成率</div>
+            <div class="stat-label">摰???/div>
           </div>
         </div>
 
-        <!-- 部門詳情 -->
+        <!-- ?券?閰單? -->
         <div id="deptCardsContainer">
-          <!-- 動態生成 -->
+          <!-- ???? -->
         </div>
       </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- 頁籤4：工程設定 -->
+    <!-- ?惜4嚗極蝔身摰?-->
     <!-- ============================================ -->
     <div id="projectSetup" class="tab-pane">
 
-      <!-- 篩選控制 -->
+      <!-- 蝭拚?批 -->
       <div class="project-filter-controls">
         <div class="filter-row">
           <div class="filter-group">
             <label class="form-label">
-              <span class="label-icon">🏢</span>
-              <span>部門篩選</span>
+              <span class="label-icon">?</span>
+              <span>?券?蝭拚</span>
             </label>
             <select id="projectDeptFilter" class="form-select">
-              <option value="all">全部部門</option>
+              <option value="all">?券?券?</option>
             </select>
           </div>
 
           <div class="filter-group">
             <label class="form-label">
-              <span class="label-icon">🔍</span>
-              <span>工程狀態</span>
+              <span class="label-icon">??</span>
+              <span>撌亦????/span>
             </label>
             <div class="filter-toggle">
               <label class="filter-option">
                 <input type="radio" name="projectStatusFilter" value="all" checked>
-                <span>全部工程</span>
+                <span>?券撌亦?</span>
               </label>
               <label class="filter-option">
                 <input type="radio" name="projectStatusFilter" value="active">
-                <span>施工中</span>
+                <span>?賢極銝?/span>
               </label>
             </div>
           </div>
 
           <div class="filter-group">
             <button id="refreshProjectList" class="btn btn-primary" style="margin-top: 1.75rem;">
-              <span class="btn-icon">🔄</span>
-              <span>重新整理</span>
+              <span class="btn-icon">??</span>
+              <span>??渡?</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- 工程卡片 -->
+      <!-- 撌亦??∠? -->
       <div class="glass-card">
         <div class="card-header">
           <div class="card-header-content">
-            <div class="card-icon">⚙️</div>
+            <div class="card-icon">??</div>
             <div>
-              <h2 class="card-title">工程基本資料管理</h2>
-              <p class="card-desc">點擊卡片可編輯工程資料</p>
+              <h2 class="card-title">撌亦??箸鞈?蝞∠?</h2>
+              <p class="card-desc">暺??∠??舐楊頛臬極蝔???/p>
             </div>
           </div>
         </div>
 
         <div id="projectCardsContainer" class="project-cards-grid">
-          <!-- 動態生成 -->
+          <!-- ???? -->
         </div>
       </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- 頁籤5：檢驗員及委外監造資料管理 -->
+    <!-- ?惜5嚗炎撽??憭???恣??-->
     <!-- ============================================ -->
     <div id="inspectorManagement" class="tab-pane">
 
-      <!-- 篩選控制 -->
+      <!-- 蝭拚?批 -->
       <div class="inspector-filter-controls">
         <div class="filter-row">
           <div class="filter-group">
             <label class="form-label">
-              <span class="label-icon">🏢</span>
-              <span>部門篩選</span>
+              <span class="label-icon">?</span>
+              <span>?券?蝭拚</span>
             </label>
             <select id="inspectorDeptFilter" class="form-select">
-              <option value="all">全部部門</option>
+              <option value="all">?券?券?</option>
             </select>
           </div>
 
           <div class="filter-group">
             <label class="form-label">
-              <span class="label-icon">🔍</span>
-              <span>狀態篩選</span>
+              <span class="label-icon">??</span>
+              <span>??祟??/span>
             </label>
             <div class="filter-toggle">
               <label class="filter-option">
                 <input type="radio" name="inspectorStatusFilter" value="all" checked>
-                <span>全部狀態</span>
+                <span>?券???/span>
               </label>
               <label class="filter-option">
                 <input type="radio" name="inspectorStatusFilter" value="active">
-                <span>啟用中</span>
+                <span>?銝?/span>
               </label>
             </div>
           </div>
 
           <div class="filter-group">
             <button id="refreshInspectorList" class="btn btn-primary" style="margin-top: 1.75rem;">
-              <span class="btn-icon">🔄</span>
-              <span>重新整理</span>
+              <span class="btn-icon">??</span>
+              <span>??渡?</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- 檢驗員卡片 -->
+      <!-- 瑼ａ??∪??-->
       <div class="glass-card">
         <div class="card-header">
           <div class="card-header-content">
-            <div class="card-icon">👥</div>
+            <div class="card-icon">?</div>
             <div>
-              <h2 class="card-title">檢驗員及委外監造資料管理</h2>
-              <p class="card-desc">管理所有檢驗員與委外監造人員</p>
+              <h2 class="card-title">瑼ａ??∪?憪?????恣??/h2>
+              <p class="card-desc">蝞∠???炎撽??憭?犖??/p>
             </div>
           </div>
           <button id="addInspectorBtn" class="btn btn-success">
-            <span class="btn-icon">➕</span>
-            <span>新增檢驗員</span>
+            <span class="btn-icon">??/span>
+            <span>?啣?瑼ａ???/span>
           </button>
         </div>
 
         <div id="inspectorCardsContainer" class="inspector-cards-grid">
-          <!-- 動態生成 -->
+          <!-- ???? -->
         </div>
       </div>
     </div>
@@ -759,13 +722,13 @@
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：編輯總表日誌 -->
+  <!-- 敶?嚗楊頛舐蜇銵冽隤?-->
   <!-- ============================================ -->
   <div id="editSummaryLogModal" class="modal">
     <div class="modal-content modal-lg">
       <div class="modal-header">
-        <h3>編輯日誌</h3>
-        <button class="modal-close" onclick="closeEditSummaryLogModal()">×</button>
+        <h3>蝺刻摩?亥?</h3>
+        <button class="modal-close" onclick="closeEditSummaryLogModal()">?</button>
       </div>
       <div class="modal-body">
         <p class="modal-subtitle" id="editSummaryLogProjectName"></p>
@@ -774,773 +737,773 @@
         <input type="hidden" id="editSummaryLogProjectSeqNo">
         <input type="hidden" id="editSummaryIsHolidayNoWork">
 
-        <!-- 假日標記 -->
+        <!-- ?璅? -->
         <div id="editHolidayNoWorkBadge" class="alert alert-info" style="display: none;">
-          <strong>🏖️ 此為假日不施工記錄</strong>
-          <p>若要修改請刪除後重新填寫</p>
+          <strong>??儭?甇斤?銝撌亥???/strong>
+          <p>?亥?靽格隢?文??憛怠神</p>
         </div>
 
         <div id="editHolidayWorkBadge" class="alert alert-warning" style="display: none;">
-          <strong>🏗️ 假日施工</strong>
+          <strong>??儭???賢極</strong>
         </div>
 
-        <!-- 假日施工切換 -->
+        <!-- ??賢極?? -->
         <div id="editHolidayWorkToggle" class="form-group" style="display: none;">
           <label class="checkbox-item-holiday">
             <input type="checkbox" id="editIsHolidayWork">
-            <span>✓ 假日施工</span>
+            <span>????賢極</span>
           </label>
         </div>
 
-        <!-- 檢驗員 -->
+        <!-- 瑼ａ???-->
         <div id="editSummaryInspectorGroup" class="form-group">
           <label class="form-label">
-            <span class="label-icon">👥</span>
-            <span>檢驗員（可多選）</span>
+            <span class="label-icon">?</span>
+            <span>瑼ａ??∴??臬??賂?</span>
           </label>
           <div id="editInspectorCheckboxes" class="checkbox-grid">
-            <!-- 動態生成 -->
+            <!-- ???? -->
           </div>
         </div>
 
-        <!-- 施工人數 -->
+        <!-- ?賢極鈭箸 -->
         <div id="editSummaryWorkersGroup" class="form-group">
           <label class="form-label">
-            <span class="label-icon">🧑‍🔧</span>
-            <span>施工人數</span>
+            <span class="label-icon">?????/span>
+            <span>?賢極鈭箸</span>
           </label>
           <input type="number" id="editSummaryWorkersCount" class="form-input" min="0">
         </div>
 
-        <!-- 工項列表 -->
+        <!-- 撌仿??” -->
         <div id="editSummaryWorkItemsGroup" class="form-group">
           <label class="form-label">
-            <span class="label-icon">🛠️</span>
-            <span>工作項目</span>
+            <span class="label-icon">??儭?/span>
+            <span>撌乩??</span>
           </label>
           <div id="editWorkItemsList">
-            <!-- 動態生成 -->
+            <!-- ???? -->
           </div>
           <button type="button" class="btn btn-secondary" onclick="copyPreviousDayData()" style="margin-top: 1rem;">
-            <span class="btn-icon">📋</span>
-            <span>複製前一天資料</span>
+            <span class="btn-icon">??</span>
+            <span>銴ˊ??憭抵???/span>
           </button>
         </div>
 
-        <!-- 修改原因 -->
+        <!-- 靽格?? -->
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📝</span>
-            <span>修改原因 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>靽格?? <span class="required">*</span></span>
           </label>
-          <textarea id="editSummaryReason" class="form-textarea" rows="2" required placeholder="請簡述修改原因"></textarea>
+          <textarea id="editSummaryReason" class="form-textarea" rows="2" required placeholder="隢陛餈唬耨?孵???></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeEditSummaryLogModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeEditSummaryLogModal()">??</button>
         <button type="button" class="btn btn-primary" onclick="confirmEditSummaryLog()">
-          <span class="btn-icon">✓</span>
-          <span>確認修改</span>
+          <span class="btn-icon">??/span>
+          <span>蝣箄?靽格</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：填表人未填寫提醒 -->
+  <!-- 敶?嚗‵銵其犖?芸‵撖急???-->
   <!-- ============================================ -->
   <div id="fillerReminderModal" class="modal">
     <div class="modal-content" style="max-width: 800px; max-height: 85vh; overflow-y: auto;">
       <div class="modal-header">
-        <h3>📋 填寫提醒</h3>
-        <button class="modal-close" onclick="closeFillerReminderModal()">×</button>
+        <h3>?? 憛怠神??</h3>
+        <button class="modal-close" onclick="closeFillerReminderModal()">?</button>
       </div>
       <div class="modal-body" id="fillerReminderContent" style="max-height: calc(85vh - 140px); overflow-y: auto;">
-        <!-- 動態生成 -->
+        <!-- ???? -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeFillerReminderModal()">我知道了</button>
+        <button type="button" class="btn btn-primary" onclick="closeFillerReminderModal()">???</button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- [新增] 彈窗：批次假日設定 -->
+  <!-- [?啣?] 敶?嚗甈∪??亥身摰?-->
   <!-- ============================================ -->
   <div id="batchHolidayModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h3>
-          <span class="modal-icon">📅</span>
-          批次假日設定
+          <span class="modal-icon">??</span>
+          ?寞活?閮剖?
         </h3>
-        <button class="modal-close" onclick="closeBatchHolidayModal()">×</button>
+        <button class="modal-close" onclick="closeBatchHolidayModal()">?</button>
       </div>
       <div class="modal-body">
         <div class="alert alert-info">
-          <p>此功能可批次將指定日期範圍內的「週末」設為「假日不施工」。</p>
+          <p>甇文??賢?寞活撠?摰????望?身?箝??乩??賢極??/p>
         </div>
 
         <div class="form-group">
-          <label class="form-label">日期範圍</label>
+          <label class="form-label">?交?蝭?</label>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div>
-              <label style="font-size: 0.9rem; color: var(--text-muted);">開始日期</label>
+              <label style="font-size: 0.9rem; color: var(--text-muted);">???交?</label>
               <input type="date" id="batchStartDate" class="form-input">
             </div>
             <div>
-              <label style="font-size: 0.9rem; color: var(--text-muted);">結束日期</label>
+              <label style="font-size: 0.9rem; color: var(--text-muted);">蝯??交?</label>
               <input type="date" id="batchEndDate" class="form-input">
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">設定對象</label>
+          <label class="form-label">閮剖?撠情</label>
           <div class="checkbox-group">
             <label class="checkbox-item">
               <input type="checkbox" id="batchCheckSat" checked>
-              <span>星期六</span>
+              <span>????/span>
             </label>
             <label class="checkbox-item">
               <input type="checkbox" id="batchCheckSun" checked>
-              <span>星期日</span>
+              <span>????/span>
             </label>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">選擇工程</label>
+          <label class="form-label">?豢?撌亦?</label>
           <div style="margin-bottom: 0.5rem;">
             <label class="checkbox-item">
               <input type="checkbox" id="batchSelectAllProjects" onchange="toggleBatchAllProjects(this)">
-              <span>全選所有施工中工程</span>
+              <span>?券??撌乩葉撌亦?</span>
             </label>
           </div>
           <div id="batchProjectList" class="checkbox-grid"
             style="max-height: 200px; overflow-y: auto; border: 1px solid var(--gray-300); padding: 0.5rem; border-radius: var(--radius);">
-            <!-- 動態生成工程列表 -->
+            <!-- ????撌亦??” -->
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeBatchHolidayModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeBatchHolidayModal()">??</button>
         <button type="button" class="btn btn-primary" onclick="submitBatchHoliday()">
-          <span class="btn-icon">🚀</span>
-          <span>開始批次設定</span>
+          <span class="btn-icon">??</span>
+          <span>???寞活閮剖?</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：變更密碼 -->
+  <!-- 敶?嚗??游?蝣?-->
   <!-- ============================================ -->
-  <!-- 使用說明模態框 -->
+  <!-- 雿輻隤芣?璅⊥?獢?-->
   <div id="roleGuideModal" class="modal">
     <div class="modal-content" style="max-width: 700px;">
       <div class="modal-header">
         <h3>
-          <span class="modal-icon">📚</span>
-          使用說明
+          <span class="modal-icon">??</span>
+          雿輻隤芣?
         </h3>
-        <button class="modal-close" onclick="closeRoleGuideModal()">×</button>
+        <button class="modal-close" onclick="closeRoleGuideModal()">?</button>
       </div>
       <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
 
-        <!-- 填表人職責 -->
+        <!-- 憛怨”鈭箄鞎?-->
         <div id="fillerGuide" style="display: none;">
           <div
             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
             <h4 style="margin: 0 0 0.5rem 0; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
-              <span style="font-size: 1.5rem;">👤</span>
-              填表人職責
+              <span style="font-size: 1.5rem;">?</span>
+              憛怨”鈭箄鞎?
             </h4>
-            <p style="margin: 0; opacity: 0.95; font-size: 0.95rem;">您的主要任務是填寫每日工程日誌並管理工程設定</p>
+            <p style="margin: 0; opacity: 0.95; font-size: 0.95rem;">?函?銝餉?隞餃??臬‵撖急??亙極蝔隤蒂蝞∠?撌亦?閮剖?</p>
           </div>
 
           <div
             style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1rem; border-left: 4px solid var(--primary);">
             <h5 style="margin: 0 0 1rem 0; color: var(--primary); display: flex; align-items: center; gap: 0.5rem;">
-              <span>📝</span>
-              <span>1. 填寫每日日誌撰寫</span>
+              <span>??</span>
+              <span>1. 憛怠神瘥?亥??啣神</span>
             </h5>
             <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
-              <li>每天填寫明日預定施工內容</li>
-              <li>記錄施工人數、檢驗員、工作項目</li>
-              <li>選擇對應的災害類型</li>
-              <li>假日施工需特別標註</li>
+              <li>瘥予憛怠神????賢極?批捆</li>
+              <li>閮??賢極鈭箸?炎撽?極雿???/li>
+              <li>?豢?撠??摰喲???/li>
+              <li>??賢極??孵璅酉</li>
             </ul>
           </div>
 
           <div
             style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius); border-left: 4px solid var(--success);">
             <h5 style="margin: 0 0 1rem 0; color: var(--success); display: flex; align-items: center; gap: 0.5rem;">
-              <span>⚙️</span>
-              <span>2. 管理工程設定</span>
+              <span>??</span>
+              <span>2. 蝞∠?撌亦?閮剖?</span>
             </h5>
             <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
-              <li><strong>工地負責人：</strong>填寫姓名與電話</li>
-              <li><strong>職安人員：</strong>填寫姓名與電話</li>
-              <li><strong>工程狀態：</strong>更新為「施工中」、「已完工」等</li>
-              <li><strong>預設檢驗員：</strong>設定常用的檢驗員</li>
+              <li><strong>撌亙鞎痊鈭綽?</strong>憛怠神憪??閰?/li>
+              <li><strong>?瑕?鈭箏嚗?/strong>憛怠神憪??閰?/li>
+              <li><strong>撌亦????</strong>?湔?箝撌乩葉?歇摰極??</li>
+              <li><strong>?身瑼ａ??∴?</strong>閮剖?撣貊?炎撽</li>
             </ul>
           </div>
 
           <div
             style="background: #fff3cd; padding: 1rem; border-radius: var(--radius); margin-top: 1.5rem; border: 2px solid #ffc107;">
             <p style="margin: 0; color: #856404; display: flex; align-items: flex-start; gap: 0.5rem;">
-              <span style="font-size: 1.2rem;">💡</span>
-              <span><strong>提示：</strong>如需新增工程或修改其他設定，請聯繫聯絡員協助處理。</span>
+              <span style="font-size: 1.2rem;">?</span>
+              <span><strong>?內嚗?/strong>憒??啣?撌亦??耨?孵隞身摰?隢蝜怨蝯∪?????/span>
             </p>
           </div>
         </div>
 
-        <!-- 聯絡員職責 -->
+        <!-- ?舐窗?∟鞎?-->
         <div id="contactGuide" style="display: none;">
           <div
             style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
             <h4 style="margin: 0 0 0.5rem 0; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
-              <span style="font-size: 1.5rem;">🔧</span>
-              聯絡員職責
+              <span style="font-size: 1.5rem;">?</span>
+              ?舐窗?∟鞎?
             </h4>
-            <p style="margin: 0; opacity: 0.95; font-size: 0.95rem;">您負責系統管理與使用者權限設定</p>
+            <p style="margin: 0; opacity: 0.95; font-size: 0.95rem;">?刻?鞎祉頂蝯梁恣??雿輻???身摰?/p>
           </div>
 
           <div
             style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1rem; border-left: 4px solid #e91e63;">
             <h5 style="margin: 0 0 1rem 0; color: #e91e63; display: flex; align-items: center; gap: 0.5rem;">
-              <span>👥</span>
-              <span>1. 使用者管理</span>
+              <span>?</span>
+              <span>1. 雿輻?恣??/span>
             </h5>
             <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
-              <li><strong>建立填表人：</strong>新增填表人帳號</li>
-              <li><strong>設定帳號密碼：</strong>為填表人設定登入資訊</li>
-              <li><strong>設定信箱：</strong>填寫填表人的 Email 地址</li>
-              <li><strong>分配工程：</strong>設定填表人要填報的工程序號</li>
+              <li><strong>撱箇?憛怨”鈭綽?</strong>?啣?憛怨”鈭箏董??/li>
+              <li><strong>閮剖?撣唾?撖Ⅳ嚗?/strong>?箏‵銵其犖閮剖??餃鞈?</li>
+              <li><strong>閮剖?靽∠拳嚗?/strong>憛怠神憛怨”鈭箇? Email ?啣?</li>
+              <li><strong>??撌亦?嚗?/strong>閮剖?憛怨”鈭箄?憛怠?極蝔???/li>
             </ul>
           </div>
 
           <div
             style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1rem; border-left: 4px solid #ff9800;">
             <h5 style="margin: 0 0 1rem 0; color: #ff9800; display: flex; align-items: center; gap: 0.5rem;">
-              <span>🏗️</span>
-              <span>2. 管理工程設定</span>
+              <span>??儭?/span>
+              <span>2. 蝞∠?撌亦?閮剖?</span>
             </h5>
             <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
-              <li><strong>更新工程狀態：</strong>標記工程為「施工中」、「已完工」等</li>
-              <li><strong>設定預設檢驗員：</strong>為工程指定常用檢驗員</li>
+              <li><strong>?湔撌亦????</strong>璅?撌亦??箝撌乩葉?歇摰極??</li>
+              <li><strong>閮剖??身瑼ａ??∴?</strong>?箏極蝔?摰虜?冽炎撽</li>
             </ul>
           </div>
 
           <div
             style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius); border-left: 4px solid #4caf50;">
             <h5 style="margin: 0 0 1rem 0; color: #4caf50; display: flex; align-items: center; gap: 0.5rem;">
-              <span>🔍</span>
-              <span>3. 檢驗員管理</span>
+              <span>??</span>
+              <span>3. 瑼ａ??∠恣??/span>
             </h5>
             <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
-              <li><strong>建立檢驗員：</strong>新增檢驗員資料</li>
-              <li><strong>設定姓名與專業：</strong>填寫檢驗員的專業領域</li>
+              <li><strong>撱箇?瑼ａ??∴?</strong>?啣?瑼ａ??∟???/li>
+              <li><strong>閮剖?憪???璆哨?</strong>憛怠神瑼ａ??∠?撠平??</li>
             </ul>
           </div>
 
           <div
             style="background: #d1ecf1; padding: 1rem; border-radius: var(--radius); margin-top: 1.5rem; border: 2px solid #17a2b8;">
             <p style="margin: 0; color: #0c5460; display: flex; align-items: flex-start; gap: 0.5rem;">
-              <span style="font-size: 1.2rem;">ℹ️</span>
-              <span><strong>注意：</strong>聯絡員擁有較高權限，請謹慎操作使用者與工程資料。</span>
+              <span style="font-size: 1.2rem;">?對?</span>
+              <span><strong>瘜冽?嚗?/strong>?舐窗?⊥???擃???隢牲??雿蝙?刻?撌亦?鞈???/span>
             </p>
           </div>
         </div>
 
-        <!-- 通用說明（所有角色都顯示） -->
+        <!-- ?隤芣?嚗????脤憿舐內嚗?-->
         <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px dashed var(--gray-300);">
           <h5 style="margin: 0 0 1rem 0; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
-            <span>🔐</span>
-            <span>帳號安全</span>
+            <span>??</span>
+            <span>撣唾?摰</span>
           </h5>
           <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8; color: var(--text-secondary);">
-            <li>首次登入後請立即變更預設密碼</li>
-            <li>定期更新密碼以確保帳號安全</li>
-            <li>不要與他人分享您的帳號密碼</li>
+            <li>擐活?餃敺?蝡霈?身撖Ⅳ</li>
+            <li>摰??湔撖Ⅳ隞亦Ⅱ靽董????/li>
+            <li>銝???鈭箏?鈭急?董??蝣?/li>
           </ul>
         </div>
 
         <div style="margin-top: 1.5rem;">
           <h5 style="margin: 0 0 1rem 0; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
-            <span>📧</span>
-            <span>技術支援</span>
+            <span>?</span>
+            <span>?銵??/span>
           </h5>
           <p style="margin: 0; padding-left: 1.5rem; line-height: 1.8; color: var(--text-secondary);">
-            如有任何問題或需要協助，請聯繫系統管理員。
+            憒?隞颱?????閬??抬?隢蝜怎頂蝯梁恣???
           </p>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="closeRoleGuideModal()">
-          <span class="btn-icon">✓</span>
-          <span>我知道了</span>
+          <span class="btn-icon">??/span>
+          <span>???</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- 變更密碼模態框 -->
+  <!-- 霈撖Ⅳ璅⊥?獢?-->
   <div id="changePasswordModal" class="modal">
     <div class="modal-content" style="max-width: 450px;">
       <div class="modal-header">
-        <h3>變更密碼</h3>
-        <button class="modal-close" onclick="closeChangePasswordModal()">×</button>
+        <h3>霈撖Ⅳ</h3>
+        <button class="modal-close" onclick="closeChangePasswordModal()">?</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🔒</span>
-            <span>舊密碼 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>??蝣?<span class="required">*</span></span>
           </label>
           <input type="password" id="oldPassword" class="form-input" required>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🔑</span>
-            <span>新密碼 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>?啣?蝣?<span class="required">*</span></span>
           </label>
           <input type="password" id="newPassword" class="form-input" required>
-          <p class="form-hint">密碼長度至少 6 位</p>
+          <p class="form-hint">撖Ⅳ?瑕漲?喳? 6 雿?/p>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">✓</span>
-            <span>確認新密碼 <span class="required">*</span></span>
+            <span class="label-icon">??/span>
+            <span>蝣箄??啣?蝣?<span class="required">*</span></span>
           </label>
           <input type="password" id="confirmPassword" class="form-input" required>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">??</button>
         <button type="button" class="btn btn-primary" onclick="submitChangePassword()">
-          <span class="btn-icon">💾</span>
-          <span>確認變更</span>
+          <span class="btn-icon">?</span>
+          <span>蝣箄?霈</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：編輯工程資料 -->
+  <!-- 敶?嚗楊頛臬極蝔???-->
   <!-- ============================================ -->
   <div id="editProjectModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>編輯工程資料</h3>
-        <button class="modal-close" onclick="closeEditProjectModal()">×</button>
+        <h3>蝺刻摩撌亦?鞈?</h3>
+        <button class="modal-close" onclick="closeEditProjectModal()">?</button>
       </div>
       <div class="modal-body">
         <p class="modal-subtitle" id="editProjectName"></p>
 
         <input type="hidden" id="editProjectSeqNo">
 
-        <!-- 兩欄佈局 -->
+        <!-- ?拇?雿? -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
           <div class="form-group" style="margin-bottom: 0;">
             <label class="form-label">
-              <span class="label-icon">👷</span>
-              <span>工地負責人 <span class="required">*</span></span>
+              <span class="label-icon">?</span>
+              <span>撌亙鞎痊鈭?<span class="required">*</span></span>
             </label>
             <input type="text" id="editResp" class="form-input" required>
           </div>
 
           <div class="form-group" style="margin-bottom: 0;">
             <label class="form-label">
-              <span class="label-icon">📞</span>
-              <span>負責人電話</span>
+              <span class="label-icon">??</span>
+              <span>鞎痊鈭粹閰?/span>
             </label>
-            <input type="tel" id="editRespPhone" class="form-input" placeholder="選填">
+            <input type="tel" id="editRespPhone" class="form-input" placeholder="?詨‵">
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
           <div class="form-group" style="margin-bottom: 0;">
             <label class="form-label">
-              <span class="label-icon">🦺</span>
-              <span>職安人員 <span class="required">*</span></span>
+              <span class="label-icon">?死</span>
+              <span>?瑕?鈭箏 <span class="required">*</span></span>
             </label>
             <input type="text" id="editSafetyOfficer" class="form-input" required>
           </div>
 
           <div class="form-group" style="margin-bottom: 0;">
             <label class="form-label">
-              <span class="label-icon">📜</span>
-              <span>證照</span>
+              <span class="label-icon">??</span>
+              <span>霅</span>
             </label>
             <select id="editSafetyLicense" class="form-select">
-              <option value="">請選擇</option>
-              <option value="甲安">甲安</option>
-              <option value="甲衛">甲衛</option>
-              <option value="乙員">乙員</option>
-              <option value="甲業">甲業</option>
-              <option value="營造甲業">營造甲業</option>
-              <option value="乙業">乙業</option>
+              <option value="">隢??/option>
+              <option value="?脣?">?脣?</option>
+              <option value="?脰?">?脰?</option>
+              <option value="銋">銋</option>
+              <option value="?脫平">?脫平</option>
+              <option value="?璆?>?璆?/option>
+              <option value="銋平">銋平</option>
             </select>
           </div>
 
           <div class="form-group" style="margin-bottom: 0;">
             <label class="form-label">
-              <span class="label-icon">📞</span>
-              <span>職安電話</span>
+              <span class="label-icon">??</span>
+              <span>?瑕??餉店</span>
             </label>
-            <input type="tel" id="editSafetyPhone" class="form-input" placeholder="選填">
+            <input type="tel" id="editSafetyPhone" class="form-input" placeholder="?詨‵">
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📊</span>
-            <span>工程狀態 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>撌亦????<span class="required">*</span></span>
           </label>
           <select id="editProjectStatus" class="form-select" required>
-            <option value="施工中">施工中</option>
-            <option value="竣工">竣工</option>
-            <option value="暫停施工">暫停施工</option>
+            <option value="?賢極銝?>?賢極銝?/option>
+            <option value="蝡?極">蝡?極</option>
+            <option value="?怠??賢極">?怠??賢極</option>
           </select>
         </div>
 
-        <!-- 狀態備註（非施工中時必填） -->
+        <!-- ???閮鳴??撌乩葉??憛恬? -->
         <div id="editStatusRemarkGroup" class="form-group" style="display: none;">
           <label class="form-label">
-            <span class="label-icon">📝</span>
-            <span>狀態備註 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>???閮?<span class="required">*</span></span>
           </label>
-          <textarea id="editStatusRemark" class="form-textarea" rows="2" placeholder="請說明竣工或暫停施工的原因"></textarea>
-          <p class="form-hint">⚠️ 工程狀態為「竣工」或「暫停施工」時，必須填寫備註說明原因</p>
+          <textarea id="editStatusRemark" class="form-textarea" rows="2" placeholder="隢牧?咯撌交??怠??賢極????></textarea>
+          <p class="form-hint">?? 撌亦????咯撌乓???撌乓?嚗??‵撖怠?閮餉牧????/p>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">👥</span>
-            <span>預設檢驗員</span>
+            <span class="label-icon">?</span>
+            <span>?身瑼ａ???/span>
           </label>
           <div id="editDefaultInspectorCheckboxes" class="checkbox-grid">
-            <!-- 動態生成 -->
+            <!-- ???? -->
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📝</span>
-            <span>修改原因 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>靽格?? <span class="required">*</span></span>
           </label>
-          <textarea id="editProjectReason" class="form-textarea" rows="2" required placeholder="請簡述修改原因"></textarea>
+          <textarea id="editProjectReason" class="form-textarea" rows="2" required placeholder="隢陛餈唬耨?孵???></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeEditProjectModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeEditProjectModal()">??</button>
         <button type="button" class="btn btn-primary" onclick="confirmEditProject()">
-          <span class="btn-icon">✓</span>
-          <span>確認修改</span>
+          <span class="btn-icon">??/span>
+          <span>蝣箄?靽格</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：新增檢驗員 -->
+  <!-- 敶?嚗憓炎撽 -->
   <!-- ============================================ -->
   <div id="addInspectorModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>新增檢驗員</h3>
-        <button class="modal-close" onclick="closeAddInspectorModal()">×</button>
+        <h3>?啣?瑼ａ???/h3>
+        <button class="modal-close" onclick="closeAddInspectorModal()">?</button>
       </div>
       <div class="modal-body">
         <div
           style="background-color: var(--primary-light); padding: var(--spacing); border-radius: 8px; margin-bottom: var(--spacing-lg);">
           <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">
-            <strong>🔢 自動編號：</strong>
-            <span id="addInspectorIdPreview" style="font-size: 1.1rem; margin-left: 0.5rem;">請先選擇部門</span>
+            <strong>? ?芸?蝺刻?嚗?/strong>
+            <span id="addInspectorIdPreview" style="font-size: 1.1rem; margin-left: 0.5rem;">隢??豢??券?</span>
           </p>
         </div>
 
-        <!-- 修正10：專業選項改為「土木、機械、電氣」 -->
+        <!-- 靽格迤10嚗?璆剝??箝??具?璇啜瘞??-->
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🏢</span>
-            <span>部門 <span class="required">*</span></span>
+            <span class="label-icon">?</span>
+            <span>?券? <span class="required">*</span></span>
           </label>
           <select id="addInspectorDept" class="form-select" required onchange="updateInspectorIdPreview()">
-            <option value="">請選擇部門</option>
+            <option value="">隢??</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">👤</span>
-            <span>姓名 <span class="required">*</span></span>
+            <span class="label-icon">?</span>
+            <span>憪? <span class="required">*</span></span>
           </label>
           <input type="text" id="addInspectorName" class="form-input" required>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🎓</span>
-            <span>職稱 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>?瑞迂 <span class="required">*</span></span>
           </label>
-          <input type="text" id="addInspectorTitle" class="form-input" required placeholder="例如：工程師、技師等">
+          <input type="text" id="addInspectorTitle" class="form-input" required placeholder="靘?嚗極蝔葦??撣怎?">
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🔧</span>
-            <span>專業 <span class="required">*</span></span>
+            <span class="label-icon">?</span>
+            <span>撠平 <span class="required">*</span></span>
           </label>
           <select id="addInspectorProfession" class="form-select" required>
-            <option value="">請選擇專業</option>
-            <option value="土木">土木</option>
-            <option value="機械">機械</option>
-            <option value="電氣">電氣</option>
+            <option value="">隢??璆?/option>
+            <option value="?">?</option>
+            <option value="璈１">璈１</option>
+            <option value="?餅除">?餅除</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📞</span>
-            <span>電話</span>
+            <span class="label-icon">??</span>
+            <span>?餉店</span>
           </label>
-          <input type="tel" id="addInspectorPhone" class="form-input" placeholder="選填">
+          <input type="tel" id="addInspectorPhone" class="form-input" placeholder="?詨‵">
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📝</span>
-            <span>新增原因 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>?啣??? <span class="required">*</span></span>
           </label>
-          <textarea id="addInspectorReason" class="form-textarea" rows="2" required placeholder="請簡述新增原因"></textarea>
+          <textarea id="addInspectorReason" class="form-textarea" rows="2" required placeholder="隢陛餈唳憓???></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeAddInspectorModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeAddInspectorModal()">??</button>
         <button type="button" class="btn btn-success" onclick="confirmAddInspector()">
-          <span class="btn-icon">✓</span>
-          <span>確認新增</span>
+          <span class="btn-icon">??/span>
+          <span>蝣箄??啣?</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：編輯檢驗員 -->
+  <!-- 敶?嚗楊頛舀炎撽 -->
   <!-- ============================================ -->
   <div id="editInspectorModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>編輯檢驗員資料</h3>
-        <button class="modal-close" onclick="closeEditInspectorModal()">×</button>
+        <h3>蝺刻摩瑼ａ??∟???/h3>
+        <button class="modal-close" onclick="closeEditInspectorModal()">?</button>
       </div>
       <div class="modal-body">
-        <p class="modal-subtitle">編號：<strong id="editInspectorIdDisplay"></strong>（不可修改）</p>
+        <p class="modal-subtitle">蝺刻?嚗?strong id="editInspectorIdDisplay"></strong>嚗??臭耨?對?</p>
 
         <input type="hidden" id="editInspectorId">
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🏢</span>
-            <span>部門 <span class="required">*</span></span>
+            <span class="label-icon">?</span>
+            <span>?券? <span class="required">*</span></span>
           </label>
           <select id="editInspectorDept" class="form-select" required>
-            <option value="">請選擇部門</option>
+            <option value="">隢??</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">👤</span>
-            <span>姓名 <span class="required">*</span></span>
+            <span class="label-icon">?</span>
+            <span>憪? <span class="required">*</span></span>
           </label>
           <input type="text" id="editInspectorName" class="form-input" required>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🎓</span>
-            <span>職稱 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>?瑞迂 <span class="required">*</span></span>
           </label>
           <input type="text" id="editInspectorTitle" class="form-input" required>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🔧</span>
-            <span>專業 <span class="required">*</span></span>
+            <span class="label-icon">?</span>
+            <span>撠平 <span class="required">*</span></span>
           </label>
           <select id="editInspectorProfession" class="form-select" required>
-            <option value="">請選擇專業</option>
-            <option value="土木">土木</option>
-            <option value="機械">機械</option>
-            <option value="電氣">電氣</option>
+            <option value="">隢??璆?/option>
+            <option value="?">?</option>
+            <option value="璈１">璈１</option>
+            <option value="?餅除">?餅除</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📞</span>
-            <span>電話</span>
+            <span class="label-icon">??</span>
+            <span>?餉店</span>
           </label>
-          <input type="tel" id="editInspectorPhone" class="form-input" placeholder="選填">
+          <input type="tel" id="editInspectorPhone" class="form-input" placeholder="?詨‵">
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📝</span>
-            <span>修改原因 <span class="required">*</span></span>
+            <span class="label-icon">??</span>
+            <span>靽格?? <span class="required">*</span></span>
           </label>
-          <textarea id="editInspectorReason" class="form-textarea" rows="2" required placeholder="請簡述修改原因"></textarea>
+          <textarea id="editInspectorReason" class="form-textarea" rows="2" required placeholder="隢陛餈唬耨?孵???></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeEditInspectorModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeEditInspectorModal()">??</button>
         <button type="button" class="btn btn-primary" onclick="confirmEditInspector()">
-          <span class="btn-icon">✓</span>
-          <span>確認修改</span>
+          <span class="btn-icon">??/span>
+          <span>蝣箄?靽格</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：TBM-KY 生成 -->
+  <!-- 敶?嚗BM-KY ?? -->
   <!-- ============================================ -->
   <div id="tbmkyModal" class="modal">
     <div class="modal-content modal-sm">
       <div class="modal-header">
-        <h3>生成 TBM-KY 文件</h3>
-        <button class="modal-close" onclick="closeTBMKYModal()">×</button>
+        <h3>?? TBM-KY ?辣</h3>
+        <button class="modal-close" onclick="closeTBMKYModal()">?</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">🏗️</span>
-            <span>選擇工程</span>
+            <span class="label-icon">??儭?/span>
+            <span>?豢?撌亦?</span>
           </label>
           <select id="tbmkyProjectSelect" class="form-select">
-            <option value="">請選擇工程</option>
+            <option value="">隢?極蝔?/option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📅</span>
-            <span>選擇日期</span>
+            <span class="label-icon">??</span>
+            <span>?豢??交?</span>
           </label>
           <input type="date" id="tbmkyDatePicker" class="form-input">
         </div>
 
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">📝</span>
-            <span>生成模式</span>
+            <span class="label-icon">??</span>
+            <span>??璅∪?</span>
           </label>
           <label class="checkbox-item-large">
             <input type="radio" name="tbmkyMode" value="merged" checked>
-            <span>合併模式（一個檔案）</span>
+            <span>?蔥璅∪?嚗???獢?</span>
           </label>
           <label class="checkbox-item-large">
             <input type="radio" name="tbmkyMode" value="separate">
-            <span>分開模式（每個工項一個檔案）</span>
+            <span>??璅∪?嚗??極????獢?</span>
           </label>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeTBMKYModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeTBMKYModal()">??</button>
         <button type="button" class="btn btn-success" onclick="confirmGenerateTBMKY()">
-          <span class="btn-icon">📄</span>
-          <span>開始生成</span>
+          <span class="btn-icon">??</span>
+          <span>????</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：TBM-KY 生成結果 -->
+  <!-- 敶?嚗BM-KY ??蝯? -->
   <!-- ============================================ -->
   <div id="tbmkyResultModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>TBM-KY 生成完成</h3>
-        <button class="modal-close" onclick="closeTBMKYResultModal()">×</button>
+        <h3>TBM-KY ??摰?</h3>
+        <button class="modal-close" onclick="closeTBMKYResultModal()">?</button>
       </div>
       <div class="modal-body">
         <div class="alert alert-success">
-          <strong>✓ <span id="tbmkyResultMessage">生成成功！</span></strong>
+          <strong>??<span id="tbmkyResultMessage">????嚗?/span></strong>
         </div>
 
         <div id="tbmkyFilesList" class="tbmky-files-list">
-          <!-- 動態生成 -->
+          <!-- ???? -->
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="closeTBMKYResultModal()">
-          <span class="btn-icon">✓</span>
-          <span>確定</span>
+          <span class="btn-icon">??/span>
+          <span>蝣箏?</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：日曆詳情 -->
+  <!-- 敶?嚗?底??-->
   <!-- ============================================ -->
   <div id="calendarDetailModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>日期詳情：<span id="detailDateTitle"></span></h3>
-        <button class="modal-close" onclick="closeCalendarDetailModal()">×</button>
+        <h3>?交?閰單?嚗?span id="detailDateTitle"></span></h3>
+        <button class="modal-close" onclick="closeCalendarDetailModal()">?</button>
       </div>
       <div class="modal-body">
         <div id="calendarDetailContent">
-          <!-- 動態生成 -->
+          <!-- ???? -->
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeCalendarDetailModal()">關閉</button>
+        <button type="button" class="btn btn-primary" onclick="closeCalendarDetailModal()">??</button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：統一確認視窗 -->
+  <!-- 敶?嚗絞銝蝣箄?閬? -->
   <!-- ============================================ -->
-  <!-- 忘記密碼 Modal -->
+  <!-- 敹?撖Ⅳ Modal -->
   <div id="forgotPasswordModal" class="modal">
     <div class="modal-content" style="max-width: 500px;">
       <div class="modal-header">
-        <h3>🔑 忘記密碼</h3>
-        <button class="modal-close" onclick="closeForgotPasswordModal()">×</button>
+        <h3>?? 敹?撖Ⅳ</h3>
+        <button class="modal-close" onclick="closeForgotPasswordModal()">?</button>
       </div>
       <div class="modal-body">
         <p style="color: #6b7280; margin-bottom: 1.5rem;">
-          請輸入您的帳號或註冊信箱，系統將發送臨時密碼至您的信箱。
+          隢撓?交?董??閮餃?靽∠拳嚗頂蝯勗??潮??蝣潸?函?靽∠拳??
         </p>
         <div class="form-group">
           <label class="form-label">
-            <span class="label-icon">👤</span>
-            <span>帳號或信箱</span>
+            <span class="label-icon">?</span>
+            <span>撣唾??縑蝞?/span>
           </label>
-          <input type="text" id="forgotPasswordInput" class="form-input" placeholder="請輸入帳號或電子信箱" required>
+          <input type="text" id="forgotPasswordInput" class="form-input" placeholder="隢撓?亙董???餃?靽∠拳" required>
         </div>
         <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
           <p style="color: #92400e; font-size: 0.875rem; margin: 0;">
-            💡 臨時密碼將發送至您註冊時填寫的信箱，請登入後立即變更密碼。
+            ? ?冽?撖Ⅳ撠??刻酉??憛怠神?縑蝞梧?隢?亙?蝡霈撖Ⅳ??
           </p>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">??</button>
         <button type="button" class="btn btn-primary" onclick="submitForgotPassword()">
-          <span class="btn-icon">📧</span>
-          <span>發送臨時密碼</span>
+          <span class="btn-icon">?</span>
+          <span>?潮??蝣?/span>
         </button>
       </div>
     </div>
@@ -1549,224 +1512,224 @@
   <div id="confirmModal" class="modal">
     <div class="modal-content modal-confirm">
       <div class="modal-header">
-        <h3>⚠️ 請確認操作</h3>
-        <button class="modal-close" onclick="closeConfirmModal()">×</button>
+        <h3>?? 隢Ⅱ隤?雿?/h3>
+        <button class="modal-close" onclick="closeConfirmModal()">?</button>
       </div>
       <div class="modal-body">
         <div id="confirmMessage" class="confirm-message">
-          <!-- 動態內容 -->
+          <!-- ???批捆 -->
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="closeConfirmModal()">取消</button>
+        <button type="button" class="btn btn-secondary" onclick="closeConfirmModal()">??</button>
         <button type="button" id="confirmBtn" class="btn btn-primary">
-          <span class="btn-icon">✓</span>
-          <span>確認執行</span>
+          <span class="btn-icon">??/span>
+          <span>蝣箄??瑁?</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 頁籤6：使用者管理 -->
+  <!-- ?惜6嚗蝙?刻恣??-->
   <!-- ============================================ -->
   <div id="userManagement" class="tab-pane">
     <div class="page-header">
-      <h2 id="userManagementTitle">使用者管理</h2>
+      <h2 id="userManagementTitle">雿輻?恣??/h2>
       <div style="display: flex; align-items: center; gap: 1rem;">
         <p id="userManagementHint" style="display: none; margin: 0; color: #6b7280; font-size: 0.875rem;">
-          💡 提示：欲設定承攬商填表人資料及其可填寫的工程限制，請勾選對應的管理工程序號
+          ? ?內嚗炬閮剖??踵?‵銵其犖鞈???臬‵撖怎?撌亦??嚗??暸撠??恣?極蝔???
         </p>
         <button class="btn btn-primary" onclick="openAddUserModal()">
-          <span>➕ 新增使用者</span>
+          <span>???啣?雿輻??/span>
         </button>
       </div>
     </div>
 
-    <!-- 篩選區 -->
+    <!-- 蝭拚? -->
     <div
       style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
       <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-        <!-- 角色篩選 -->
+        <!-- 閫蝭拚 -->
         <div style="flex: 1; min-width: 200px;">
           <label
-            style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem; font-size: 0.875rem;">🎭
-            角色篩選</label>
+            style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem; font-size: 0.875rem;">?
+            閫蝭拚</label>
           <select id="userRoleFilter" class="form-select" onchange="applyUserFilters()" style="width: 100%;">
-            <option value="all">全部角色</option>
-            <option value="超級管理員">超級管理員</option>
-            <option value="聯絡員">聯絡員</option>
-            <option value="填表人">填表人</option>
+            <option value="all">?券閫</option>
+            <option value="頞?蝞∠???>頞?蝞∠???/option>
+            <option value="?舐窗??>?舐窗??/option>
+            <option value="憛怨”鈭?>憛怨”鈭?/option>
           </select>
         </div>
 
-        <!-- 部門篩選 -->
+        <!-- ?券?蝭拚 -->
         <div style="flex: 1; min-width: 200px;">
           <label
-            style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem; font-size: 0.875rem;">🏢
-            部門篩選</label>
+            style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem; font-size: 0.875rem;">?
+            ?券?蝭拚</label>
           <select id="userDeptFilter" class="form-select" onchange="applyUserFilters()" style="width: 100%;">
-            <option value="all">全部部門</option>
-            <!-- 動態生成 -->
+            <option value="all">?券?券?</option>
+            <!-- ???? -->
           </select>
         </div>
 
-        <!-- 搜尋框 -->
+        <!-- ??獢?-->
         <div style="flex: 2; min-width: 250px;">
           <label
-            style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem; font-size: 0.875rem;">🔍
-            搜尋</label>
-          <input type="text" id="userSearchInput" class="form-input" placeholder="搜尋姓名、帳號、Email..."
+            style="display: block; font-weight: 600; color: #374151; margin-bottom: 0.5rem; font-size: 0.875rem;">??
+            ??</label>
+          <input type="text" id="userSearchInput" class="form-input" placeholder="??憪??董?mail..."
             oninput="applyUserFilters()" style="width: 100%;">
         </div>
 
-        <!-- 清除按鈕 -->
+        <!-- 皜?? -->
         <div style="align-self: flex-end;">
           <button class="btn" onclick="clearUserFilters()"
             style="background: #6b7280; color: white; padding: 0.625rem 1.25rem;">
-            🔄 清除篩選
+            ?? 皜蝭拚
           </button>
         </div>
       </div>
 
-      <!-- 統計資訊 -->
+      <!-- 蝯梯?鞈? -->
       <div id="userFilterStats"
         style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 0.875rem;">
-        <span>📊 共 <strong id="userTotalCount" style="color: #3b82f6; font-size: 1.1rem;">0</strong> 位使用者</span>
+        <span>?? ??<strong id="userTotalCount" style="color: #3b82f6; font-size: 1.1rem;">0</strong> 雿蝙?刻?/span>
       </div>
     </div>
 
-    <!-- 使用者列表 -->
+    <!-- 雿輻??銵?-->
     <div id="userListContainer" class="card-container">
-      <!-- 動態生成 -->
+      <!-- ???? -->
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- 彈窗：新增/編輯使用者 -->
+  <!-- 敶?嚗憓?蝺刻摩雿輻??-->
   <!-- ============================================ -->
   <div id="addUserModal" class="modal">
     <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
       <div class="modal-header"
         style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1.5rem 2rem;">
-        <h3 id="addUserModalTitle" style="margin: 0; font-size: 1.5rem; font-weight: 700;">新增使用者</h3>
+        <h3 id="addUserModalTitle" style="margin: 0; font-size: 1.5rem; font-weight: 700;">?啣?雿輻??/h3>
         <button class="btn-icon" onclick="closeAddUserModal()" style="background: rgba(255,255,255,0.2); color: white;">
-          <span class="icon">✕</span>
+          <span class="icon">??/span>
         </button>
       </div>
 
       <div class="modal-body" style="padding: 2rem;">
         <input type="hidden" id="editUserRowIndex">
 
-        <!-- 兩欄佈局 -->
+        <!-- ?拇?雿? -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-          <!-- 左欄 -->
+          <!-- 撌行? -->
           <div>
             <div class="form-group" style="margin-bottom: 1.5rem;">
               <label
                 style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.25rem;">🏢</span>
-                <span>部門</span>
+                <span style="font-size: 1.25rem;">?</span>
+                <span>?券?</span>
               </label>
               <select id="userDept" class="form-select"
                 style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;">
-                <option value="">請選擇部門</option>
+                <option value="">隢??</option>
               </select>
             </div>
 
             <div class="form-group" style="margin-bottom: 1.5rem;">
               <label
                 style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.25rem;">👤</span>
-                <span>姓名</span>
+                <span style="font-size: 1.25rem;">?</span>
+                <span>憪?</span>
                 <span style="color: #ef4444; font-size: 1.1rem;">*</span>
               </label>
-              <input type="text" id="userName" placeholder="例如：王小明" required class="form-input"
+              <input type="text" id="userName" placeholder="靘?嚗?撠?" required class="form-input"
                 style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;">
             </div>
 
             <div class="form-group" style="margin-bottom: 1.5rem;">
               <label
                 style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.25rem;">🔑</span>
-                <span>帳號</span>
+                <span style="font-size: 1.25rem;">??</span>
+                <span>撣唾?</span>
                 <span style="color: #ef4444; font-size: 1.1rem;">*</span>
               </label>
-              <input type="text" id="userAccount" placeholder="例如：wang001" required class="form-input"
+              <input type="text" id="userAccount" placeholder="靘?嚗ang001" required class="form-input"
                 style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem; font-family: monospace;">
             </div>
           </div>
 
-          <!-- 右欄 -->
+          <!-- ?單? -->
           <div>
             <div class="form-group" style="margin-bottom: 1.5rem;">
               <label
                 style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.25rem;">📧</span>
+                <span style="font-size: 1.25rem;">?</span>
                 <span>Email</span>
                 <span style="color: #ef4444; font-size: 1.1rem;">*</span>
               </label>
-              <input type="email" id="userEmail" placeholder="例如：wang@example.com" required class="form-input"
+              <input type="email" id="userEmail" placeholder="靘?嚗ang@example.com" required class="form-input"
                 style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;">
             </div>
 
             <div class="form-group" style="margin-bottom: 1.5rem;">
               <label
                 style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.25rem;">👔</span>
-                <span>身分</span>
+                <span style="font-size: 1.25rem;">??</span>
+                <span>頨怠?</span>
                 <span style="color: #ef4444; font-size: 1.1rem;">*</span>
               </label>
               <select id="userRole" onchange="handleRoleChange()" required class="form-select"
                 style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;">
-                <option value="填表人">填表人</option>
-                <option value="聯絡員">聯絡員</option>
-                <option value="超級管理員">超級管理員</option>
+                <option value="憛怨”鈭?>憛怨”鈭?/option>
+                <option value="?舐窗??>?舐窗??/option>
+                <option value="頞?蝞∠???>頞?蝞∠???/option>
               </select>
             </div>
 
             <div class="form-group" style="margin-bottom: 1.5rem;">
               <label
                 style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.25rem;">🔐</span>
-                <span>密碼</span>
+                <span style="font-size: 1.25rem;">??</span>
+                <span>撖Ⅳ</span>
                 <span id="passwordRequired" style="color: #ef4444; font-size: 1.1rem;">*</span>
               </label>
-              <input type="password" id="userPassword" placeholder="請輸入密碼" class="form-input"
+              <input type="password" id="userPassword" placeholder="隢撓?亙?蝣? class="form-input"
                 style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;">
               <small id="passwordHint"
-                style="display: none; color: #6b7280; font-size: 0.85rem; margin-top: 0.25rem; display: block;">編輯時，留空表示不修改密碼</small>
+                style="display: none; color: #6b7280; font-size: 0.85rem; margin-top: 0.25rem; display: block;">蝺刻摩???征銵函內銝耨?孵?蝣?/small>
             </div>
           </div>
         </div>
 
-        <!-- 主管 Email（全寬） -->
+        <!-- 銝餌恣 Email嚗撖穿? -->
         <div class="form-group" style="margin-bottom: 1.5rem;">
           <label
             style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
-            <span style="font-size: 1.25rem;">👔</span>
-            <span>主管 Email</span>
+            <span style="font-size: 1.25rem;">??</span>
+            <span>銝餌恣 Email</span>
           </label>
-          <input type="email" id="userSupervisorEmail" placeholder="例如：supervisor@example.com" class="form-input"
+          <input type="email" id="userSupervisorEmail" placeholder="靘?嚗upervisor@example.com" class="form-input"
             style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;">
         </div>
 
-        <!-- 管理工程（全寬，摺疊式） -->
+        <!-- 蝞∠?撌亦?嚗撖穿??箇?撘? -->
         <div class="form-group" id="managedProjectsGroup" style="display: none;">
           <label
             style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #374151; margin-bottom: 0.75rem;">
-            <span style="font-size: 1.25rem;">🏗️</span>
-            <span>管理工程序號</span>
+            <span style="font-size: 1.25rem;">??儭?/span>
+            <span>蝞∠?撌亦?摨?</span>
             <span style="color: #ef4444; font-size: 1.1rem;">*</span>
           </label>
           <div
             style="background: #f9fafb; padding: 1.25rem; border-radius: 12px; border: 2px solid #e5e7eb; max-height: 400px; overflow-y: auto;">
             <div id="managedProjectsCheckboxes" style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <!-- 動態生成部門分組 -->
+              <!-- ?????券??? -->
             </div>
           </div>
           <small
-            style="color: #6b7280; font-size: 0.85rem; margin-top: 0.5rem; display: block;">選擇此填表人可填寫的工程（可按部門快速全選）</small>
+            style="color: #6b7280; font-size: 0.85rem; margin-top: 0.5rem; display: block;">?豢?甇文‵銵其犖?臬‵撖怎?撌亦?嚗??敹恍?賂?</small>
         </div>
       </div>
 
@@ -1774,32 +1737,32 @@
         style="padding: 1.5rem 2rem; background: #f9fafb; border-top: 2px solid #e5e7eb; display: flex; gap: 1rem; justify-content: flex-end;">
         <button class="btn" onclick="closeAddUserModal()"
           style="padding: 0.75rem 2rem; font-size: 1rem; background: #6b7280; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-          取消
+          ??
         </button>
         <button class="btn btn-primary" onclick="confirmAddUser()"
           style="padding: 0.75rem 2rem; font-size: 1rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
-          確認
+          蝣箄?
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- Loading 動畫 -->
+  <!-- Loading ? -->
   <!-- ============================================ -->
   <div id="loadingOverlay" class="loading">
     <div class="loading-content">
       <div class="loading-spinner"></div>
-      <div class="loading-text">處理中，請稍候...</div>
+      <div class="loading-text">??銝哨?隢???..</div>
     </div>
   </div>
 
   <!-- ============================================ -->
-  <!-- Toast 通知（修正9：z-index提高） -->
+  <!-- Toast ?嚗耨甇?嚗-index??嚗?-->
   <!-- ============================================ -->
   <div id="toast" class="toast"></div>
 
-  <script src="./app.js?v=6"></script>
+  <script src="./app.js?v=5"></script>
 </body>
 
 </html>
