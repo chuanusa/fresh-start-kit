@@ -7,7 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -26,6 +25,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   MoreHorizontal,
+  Sparkles,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -88,24 +88,26 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
   });
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      {/* ===== Desktop Sidebar ===== */}
+    <div className="flex h-screen overflow-hidden bg-background gradient-mesh">
+      {/* ===== Desktop Sidebar — Floating Glass Panel ===== */}
       <aside
         className={cn(
-          'hidden md:flex flex-col border-r border-sidebar-border transition-all duration-300 ease-in-out',
-          'bg-sidebar-background/80 backdrop-blur-xl',
-          collapsed ? 'w-[68px]' : 'w-64'
+          'hidden md:flex flex-col transition-all duration-400 ease-in-out relative z-20',
+          'bg-sidebar-background/60 backdrop-blur-2xl',
+          'border-r border-sidebar-border/50',
+          collapsed ? 'w-[72px]' : 'w-[260px]'
         )}
       >
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-4 py-4 border-b border-sidebar-border min-h-[64px]">
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl gradient-primary shrink-0">
-            <HardHat className="h-5 w-5 text-white" />
+        {/* Logo Area */}
+        <div className="flex items-center gap-3 px-4 py-5 min-h-[72px]">
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl gradient-primary shrink-0 shadow-lg shadow-primary/25 glow">
+            <HardHat className="h-5 w-5 text-primary-foreground" />
+            <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-accent animate-glow-pulse" />
           </div>
           {!collapsed && (
             <div className="overflow-hidden animate-fade-up">
-              <h1 className="text-sm font-bold tracking-tight text-sidebar-foreground">每日工程日誌</h1>
-              <p className="text-[10px] text-sidebar-foreground/50">Engineering Log System</p>
+              <h1 className="text-sm font-bold tracking-tight text-sidebar-foreground">工程日誌系統</h1>
+              <p className="text-[10px] text-sidebar-foreground/40 font-medium tracking-wide uppercase">Engineering Log</p>
             </div>
           )}
         </div>
@@ -113,13 +115,13 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
         {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="mx-3 mt-3 mb-1 flex items-center justify-center h-8 rounded-lg text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
+          className="mx-3 mb-2 flex items-center justify-center h-8 rounded-xl text-sidebar-foreground/40 hover:text-sidebar-foreground hover:bg-sidebar-accent/80 transition-all duration-200"
         >
           {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
         </button>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-1 space-y-0.5 overflow-y-auto">
           {visibleTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.name;
@@ -129,17 +131,20 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
                   onClick={() => onTabChange(tab.name)}
                   className={cn(
                     'w-full flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 relative',
-                    collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5',
+                    collapsed ? 'justify-center px-2 py-3' : 'px-3.5 py-2.5',
                     isActive
-                      ? 'gradient-primary text-white shadow-lg shadow-primary/20 active-indicator'
-                      : 'text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                      ? 'bg-primary/10 text-primary-foreground active-indicator'
+                      : 'text-sidebar-foreground/50 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground'
                   )}
                 >
-                  <Icon className="h-[18px] w-[18px] shrink-0" />
-                  {!collapsed && <span>{tab.label}</span>}
+                  {isActive && (
+                    <div className="absolute inset-0 rounded-xl gradient-primary opacity-90 shadow-lg shadow-primary/20" />
+                  )}
+                  <Icon className="h-[18px] w-[18px] shrink-0 relative z-10" />
+                  {!collapsed && <span className="relative z-10">{tab.label}</span>}
                 </button>
                 {collapsed && (
-                  <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded-lg bg-popover text-popover-foreground text-xs font-medium shadow-lg border border-border/50 whitespace-nowrap opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 z-50">
+                  <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 rounded-xl bg-popover text-popover-foreground text-xs font-semibold shadow-xl border border-border/50 whitespace-nowrap opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 z-50">
                     {tab.label}
                   </span>
                 )}
@@ -148,90 +153,99 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
           })}
         </nav>
 
-        {/* Theme Toggle */}
-        <div className="px-3 py-2 relative group">
-          <button
-            onClick={toggleTheme}
-            className={cn(
-              'w-full flex items-center gap-3 rounded-xl text-sm transition-colors hover:bg-sidebar-accent text-sidebar-foreground/60 hover:text-sidebar-foreground',
-              collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'
-            )}
-          >
-            {lightMode ? <Moon className="h-[18px] w-[18px]" /> : <Sun className="h-[18px] w-[18px]" />}
-            {!collapsed && <span>{lightMode ? '深色模式' : '淺色模式'}</span>}
-          </button>
-          {collapsed && (
-            <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded-lg bg-popover text-popover-foreground text-xs font-medium shadow-lg border border-border/50 whitespace-nowrap opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 z-50">
-              {lightMode ? '深色模式' : '淺色模式'}
-            </span>
-          )}
-        </div>
-
-        {/* User section */}
-        <div className="px-3 py-3 border-t border-sidebar-border">
-          {isGuest ? (
-            <Button
-              variant="outline"
+        {/* Bottom Section */}
+        <div className="px-3 py-2 space-y-1 border-t border-sidebar-border/50">
+          {/* Theme Toggle */}
+          <div className="relative group">
+            <button
+              onClick={toggleTheme}
               className={cn(
-                'w-full border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent',
-                collapsed && 'px-2'
+                'w-full flex items-center gap-3 rounded-xl text-sm transition-all duration-200 hover:bg-sidebar-accent/60 text-sidebar-foreground/50 hover:text-sidebar-foreground',
+                collapsed ? 'justify-center px-2 py-2.5' : 'px-3.5 py-2.5'
               )}
-              onClick={() => setLoginOpen(true)}
             >
-              <LogIn className="h-4 w-4 shrink-0" />
-              {!collapsed && <span className="ml-2">登入</span>}
-            </Button>
-          ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className={cn(
-                  'w-full flex items-center gap-3 rounded-xl hover:bg-sidebar-accent transition-colors',
-                  collapsed ? 'justify-center px-2 py-2' : 'px-3 py-2'
-                )}>
-                  <Avatar className="h-8 w-8 shrink-0">
-                    <AvatarFallback className="gradient-primary text-white text-xs font-bold">
-                      {user?.name?.charAt(0) || 'U'}
-                    </AvatarFallback>
-                  </Avatar>
-                  {!collapsed && (
-                    <div className="flex-1 text-left overflow-hidden">
-                      <p className="text-sm font-medium text-sidebar-foreground truncate">{user?.name}</p>
-                      <p className="text-[10px] text-sidebar-foreground/50">{user?.role}</p>
-                    </div>
-                  )}
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={logout} className="text-destructive">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  登出
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+              {lightMode ? <Moon className="h-[18px] w-[18px]" /> : <Sun className="h-[18px] w-[18px]" />}
+              {!collapsed && <span>{lightMode ? '深色模式' : '淺色模式'}</span>}
+            </button>
+            {collapsed && (
+              <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 rounded-xl bg-popover text-popover-foreground text-xs font-semibold shadow-xl border border-border/50 whitespace-nowrap opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 z-50">
+                {lightMode ? '深色模式' : '淺色模式'}
+              </span>
+            )}
+          </div>
+
+          {/* User section */}
+          <div className="py-2">
+            {isGuest ? (
+              <Button
+                variant="outline"
+                className={cn(
+                  'w-full border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent',
+                  collapsed && 'px-2'
+                )}
+                onClick={() => setLoginOpen(true)}
+              >
+                <LogIn className="h-4 w-4 shrink-0" />
+                {!collapsed && <span className="ml-2">登入</span>}
+              </Button>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className={cn(
+                    'w-full flex items-center gap-3 rounded-xl hover:bg-sidebar-accent/60 transition-all duration-200',
+                    collapsed ? 'justify-center px-2 py-2' : 'px-3 py-2'
+                  )}>
+                    <Avatar className="h-8 w-8 shrink-0 ring-2 ring-primary/20">
+                      <AvatarFallback className="gradient-primary text-primary-foreground text-xs font-bold">
+                        {user?.name?.charAt(0) || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    {!collapsed && (
+                      <div className="flex-1 text-left overflow-hidden">
+                        <p className="text-sm font-semibold text-sidebar-foreground truncate">{user?.name}</p>
+                        <p className="text-[10px] text-sidebar-foreground/40 font-medium">{user?.role}</p>
+                      </div>
+                    )}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={logout} className="text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    登出
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </div>
       </aside>
 
       {/* ===== Main Area ===== */}
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* Mobile header */}
-        <header className="md:hidden flex items-center justify-between px-4 py-3 bg-card/80 backdrop-blur-xl border-b border-border">
+        <header className="md:hidden flex items-center justify-between px-4 py-3 bg-card/60 backdrop-blur-2xl border-b border-border/50">
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg gradient-primary">
-              <HardHat className="h-4 w-4 text-white" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl gradient-primary shadow-lg shadow-primary/20">
+              <HardHat className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-bold text-sm">工程日誌</span>
+            <div>
+              <span className="font-bold text-sm">工程日誌</span>
+              <div className="flex items-center gap-1">
+                <Sparkles className="h-2.5 w-2.5 text-accent" />
+                <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-wider">Pro</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-8 w-8">
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-9 w-9 rounded-xl">
               {lightMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
             </Button>
             {isGuest ? (
-              <Button variant="outline" size="sm" onClick={() => setLoginOpen(true)} className="h-8 text-xs">
+              <Button variant="outline" size="sm" onClick={() => setLoginOpen(true)} className="h-9 text-xs rounded-xl">
                 <LogIn className="mr-1 h-3 w-3" /> 登入
               </Button>
             ) : (
-              <Button variant="ghost" size="icon" onClick={logout} className="h-8 w-8">
+              <Button variant="ghost" size="icon" onClick={logout} className="h-9 w-9 rounded-xl">
                 <LogOut className="h-4 w-4" />
               </Button>
             )}
@@ -239,14 +253,14 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
         </header>
 
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-          <div className="animate-fade-up">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10">
+          <div className="animate-fade-up max-w-6xl mx-auto">
             {children}
           </div>
         </main>
 
         {/* ===== Mobile Bottom Navigation ===== */}
-        <nav className="md:hidden flex items-center justify-around bg-card/80 backdrop-blur-xl border-t border-border px-1 py-1.5 safe-area-bottom">
+        <nav className="md:hidden flex items-center justify-around bg-card/60 backdrop-blur-2xl border-t border-border/30 px-1 py-2 safe-area-bottom">
           {(() => {
             const maxVisible = 4;
             const mainTabs = visibleTabs.slice(0, maxVisible);
@@ -263,17 +277,17 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
                       key={tab.name}
                       onClick={() => onTabChange(tab.name)}
                       className={cn(
-                        'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 flex-1',
+                        'flex flex-col items-center gap-1 px-2 py-1.5 rounded-2xl transition-all min-w-0 flex-1',
                         isActive ? 'text-primary' : 'text-muted-foreground'
                       )}
                     >
                       <div className={cn(
-                        'p-1.5 rounded-xl transition-all',
-                        isActive && 'gradient-primary shadow-lg shadow-primary/25'
+                        'p-2 rounded-2xl transition-all duration-300',
+                        isActive && 'gradient-primary shadow-lg shadow-primary/30 glow'
                       )}>
-                        <Icon className={cn('h-4 w-4', isActive && 'text-white')} />
+                        <Icon className={cn('h-4 w-4', isActive && 'text-primary-foreground')} />
                       </div>
-                      <span className="text-[10px] font-medium truncate max-w-full">{tab.label}</span>
+                      <span className="text-[10px] font-semibold truncate max-w-full">{tab.label}</span>
                     </button>
                   );
                 })}
@@ -281,19 +295,19 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button className={cn(
-                        'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 flex-1',
+                        'flex flex-col items-center gap-1 px-2 py-1.5 rounded-2xl transition-all min-w-0 flex-1',
                         isOverflowActive ? 'text-primary' : 'text-muted-foreground'
                       )}>
                         <div className={cn(
-                          'p-1.5 rounded-xl transition-all',
-                          isOverflowActive && 'gradient-primary shadow-lg shadow-primary/25'
+                          'p-2 rounded-2xl transition-all duration-300',
+                          isOverflowActive && 'gradient-primary shadow-lg shadow-primary/30 glow'
                         )}>
-                          <MoreHorizontal className={cn('h-4 w-4', isOverflowActive && 'text-white')} />
+                          <MoreHorizontal className={cn('h-4 w-4', isOverflowActive && 'text-primary-foreground')} />
                         </div>
-                        <span className="text-[10px] font-medium">更多</span>
+                        <span className="text-[10px] font-semibold">更多</span>
                       </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="mb-2 min-w-[160px] bottom-full">
+                    <DropdownMenuContent align="end" className="mb-2 min-w-[180px]">
                       {overflowTabs.map((tab) => {
                         const Icon = tab.icon;
                         return (
@@ -301,6 +315,7 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
                             key={tab.name}
                             onClick={() => onTabChange(tab.name)}
                             className={cn(
+                              'rounded-lg',
                               activeTab === tab.name && 'bg-primary/10 text-primary font-semibold'
                             )}
                           >
