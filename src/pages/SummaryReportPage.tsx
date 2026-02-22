@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getSummaryData, getGuestSummaryData, type SummaryData } from '@/lib/gas-api';
 import { useAuth } from '@/contexts/AuthContext';
@@ -47,11 +46,11 @@ export function SummaryReportPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 max-w-6xl">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">工程總表</h2>
-          <p className="text-muted-foreground text-sm">
+          <h2 className="text-2xl font-bold tracking-tight gradient-text">工程總表</h2>
+          <p className="text-muted-foreground text-sm mt-1">
             {isGuest ? '訪客檢視模式' : '每日施工總表'}
           </p>
         </div>
@@ -59,17 +58,17 @@ export function SummaryReportPage() {
           <Tabs value={viewMode} onValueChange={(v: string) => setViewMode(v as 'tomorrow' | 'today')}>
             <TabsList>
               <TabsTrigger value="tomorrow">
-                <CalendarDays className="mr-1 h-3 w-3" /> 明日預定
+                <CalendarDays className="mr-1.5 h-3.5 w-3.5" /> 明日預定
               </TabsTrigger>
               <TabsTrigger value="today">
-                <FileText className="mr-1 h-3 w-3" /> 今日施工
+                <FileText className="mr-1.5 h-3.5 w-3.5" /> 今日施工
               </TabsTrigger>
             </TabsList>
           </Tabs>
         )}
       </div>
 
-      <Card className="glass-card">
+      <Card className="glass-card overflow-hidden">
         <CardContent className="p-0">
           {loading ? (
             <div className="flex items-center justify-center py-20">
@@ -79,18 +78,18 @@ export function SummaryReportPage() {
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead className="font-semibold">日期</TableHead>
-                    <TableHead className="font-semibold">工程名稱</TableHead>
-                    <TableHead className="font-semibold">檢驗員</TableHead>
-                    <TableHead className="font-semibold">狀態</TableHead>
-                    <TableHead className="font-semibold">施工內容</TableHead>
+                  <TableRow className="border-border/30 bg-muted/30">
+                    <TableHead className="font-semibold text-foreground/80">日期</TableHead>
+                    <TableHead className="font-semibold text-foreground/80">工程名稱</TableHead>
+                    <TableHead className="font-semibold text-foreground/80">檢驗員</TableHead>
+                    <TableHead className="font-semibold text-foreground/80">狀態</TableHead>
+                    <TableHead className="font-semibold text-foreground/80">施工內容</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {data.map((row, i) => (
-                    <TableRow key={i} className="hover:bg-muted/30">
-                      <TableCell className="font-mono text-sm">{row.date}</TableCell>
+                    <TableRow key={i} className="border-border/20 hover:bg-muted/20 transition-colors">
+                      <TableCell className="font-mono text-sm text-muted-foreground">{row.date}</TableCell>
                       <TableCell className="font-medium">{row.projectName}</TableCell>
                       <TableCell>{row.inspector}</TableCell>
                       <TableCell>
@@ -106,7 +105,7 @@ export function SummaryReportPage() {
             </div>
           ) : (
             <div className="text-center py-20 text-muted-foreground">
-              <FileText className="h-12 w-12 mx-auto mb-3 opacity-30" />
+              <FileText className="h-12 w-12 mx-auto mb-3 opacity-20" />
               <p>尚無資料</p>
             </div>
           )}

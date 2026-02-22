@@ -1,47 +1,250 @@
 @import "tailwindcss";
 
 @theme {
-  --color-border: hsl(220 13% 91%);
-  --color-input: hsl(220 13% 91%);
-  --color-ring: hsl(221 83% 53%);
-  --color-background: hsl(220 20% 97%);
-  --color-foreground: hsl(224 30% 12%);
-  --color-primary: hsl(221 83% 53%);
+  /* ===== AI Gradient Primary: Indigo → Violet ===== */
+  --color-primary: hsl(245 58% 51%);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(215 20% 93%);
-  --color-secondary-foreground: hsl(224 30% 12%);
+
+  /* ===== Accent: Cyan ===== */
+  --color-accent: hsl(188 94% 53%);
+  --color-accent-foreground: hsl(224 40% 8%);
+
+  /* ===== Core Palette (Dark-first) ===== */
+  --color-background: hsl(228 25% 8%);
+  --color-foreground: hsl(220 20% 92%);
+
+  --color-card: hsl(228 22% 12%);
+  --color-card-foreground: hsl(220 20% 92%);
+
+  --color-popover: hsl(228 22% 14%);
+  --color-popover-foreground: hsl(220 20% 92%);
+
+  --color-muted: hsl(228 18% 16%);
+  --color-muted-foreground: hsl(220 12% 55%);
+
+  --color-secondary: hsl(228 18% 18%);
+  --color-secondary-foreground: hsl(220 20% 88%);
+
+  --color-border: hsl(228 16% 20%);
+  --color-input: hsl(228 16% 20%);
+  --color-ring: hsl(245 58% 51%);
+
   --color-destructive: hsl(0 72% 51%);
   --color-destructive-foreground: hsl(0 0% 100%);
-  --color-muted: hsl(220 14% 96%);
-  --color-muted-foreground: hsl(220 9% 46%);
-  --color-accent: hsl(262 83% 58%);
-  --color-accent-foreground: hsl(0 0% 100%);
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(224 30% 12%);
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(224 30% 12%);
-  --color-success: hsl(142 71% 45%);
+
+  --color-success: hsl(152 69% 42%);
   --color-success-foreground: hsl(0 0% 100%);
+
   --color-warning: hsl(38 92% 50%);
   --color-warning-foreground: hsl(0 0% 100%);
-  --color-sidebar-background: hsl(224 30% 12%);
-  --color-sidebar-foreground: hsl(220 14% 96%);
-  --color-sidebar-primary: hsl(221 83% 53%);
+
+  /* ===== Sidebar (Darker Glass Panel) ===== */
+  --color-sidebar-background: hsl(228 28% 6%);
+  --color-sidebar-foreground: hsl(220 16% 80%);
+  --color-sidebar-primary: hsl(245 58% 51%);
   --color-sidebar-primary-foreground: hsl(0 0% 100%);
-  --color-sidebar-accent: hsl(224 25% 18%);
-  --color-sidebar-accent-foreground: hsl(220 14% 96%);
-  --color-sidebar-border: hsl(224 20% 20%);
-  --color-sidebar-ring: hsl(221 83% 53%);
-  --color-chart-1: hsl(221 83% 53%);
-  --color-chart-2: hsl(262 83% 65%);
-  --color-chart-3: hsl(142 71% 45%);
-  --color-chart-4: hsl(38 92% 50%);
+  --color-sidebar-accent: hsl(228 22% 14%);
+  --color-sidebar-accent-foreground: hsl(220 20% 92%);
+  --color-sidebar-border: hsl(228 16% 16%);
+  --color-sidebar-ring: hsl(245 58% 51%);
+
+  /* ===== Chart Colors ===== */
+  --color-chart-1: hsl(245 58% 55%);
+  --color-chart-2: hsl(270 60% 58%);
+  --color-chart-3: hsl(152 69% 42%);
+  --color-chart-4: hsl(188 94% 48%);
   --color-chart-5: hsl(0 72% 51%);
-  --radius-lg: 0.75rem;
-  --radius-md: calc(0.75rem - 2px);
-  --radius-sm: calc(0.75rem - 4px);
+
+  /* ===== Radius (enlarged for modern feel) ===== */
+  --radius-lg: 1rem;
+  --radius-md: calc(1rem - 2px);
+  --radius-sm: calc(1rem - 6px);
+}
+
+/* ===== Light Mode Override ===== */
+.light {
+  --color-background: hsl(225 20% 96%);
+  --color-foreground: hsl(224 40% 10%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(224 40% 10%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(224 40% 10%);
+
+  --color-muted: hsl(225 16% 93%);
+  --color-muted-foreground: hsl(220 9% 46%);
+
+  --color-secondary: hsl(225 14% 90%);
+  --color-secondary-foreground: hsl(224 40% 10%);
+
+  --color-border: hsl(225 14% 86%);
+  --color-input: hsl(225 14% 86%);
+
+  --color-sidebar-background: hsl(0 0% 100%);
+  --color-sidebar-foreground: hsl(224 40% 10%);
+  --color-sidebar-accent: hsl(225 16% 94%);
+  --color-sidebar-accent-foreground: hsl(224 40% 10%);
+  --color-sidebar-border: hsl(225 14% 88%);
+}
+
+/* ===== Global ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Noto+Sans+TC:wght@300..800&display=swap');
+
+html {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 body {
-  font-family: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
+  font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Glassmorphism Utility ===== */
+.glass-card {
+  background: hsl(228 22% 12% / 0.6);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid hsl(228 16% 24% / 0.5);
+  box-shadow:
+    0 4px 30px hsl(245 58% 20% / 0.08),
+    inset 0 1px 0 hsl(0 0% 100% / 0.04);
+}
+
+.light .glass-card {
+  background: hsl(0 0% 100% / 0.7);
+  border-color: hsl(225 14% 86% / 0.6);
+  box-shadow:
+    0 4px 30px hsl(225 20% 50% / 0.06),
+    inset 0 1px 0 hsl(0 0% 100% / 0.8);
+}
+
+/* ===== Neumorphism Soft Card ===== */
+.neu-card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    6px 6px 16px hsl(228 30% 4% / 0.4),
+    -4px -4px 12px hsl(228 16% 20% / 0.3),
+    inset 0 1px 0 hsl(0 0% 100% / 0.03);
+}
+
+.light .neu-card {
+  box-shadow:
+    6px 6px 16px hsl(225 20% 80% / 0.5),
+    -4px -4px 12px hsl(0 0% 100% / 0.8),
+    inset 0 1px 0 hsl(0 0% 100% / 0.5);
+}
+
+/* ===== 3D Hover Card ===== */
+.hover-3d {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-3d:hover {
+  transform: translateY(-4px) perspective(800px) rotateX(2deg);
+  box-shadow:
+    0 20px 40px hsl(245 58% 20% / 0.15),
+    0 8px 16px hsl(228 30% 4% / 0.2);
+}
+.light .hover-3d:hover {
+  box-shadow:
+    0 20px 40px hsl(225 20% 50% / 0.12),
+    0 8px 16px hsl(225 20% 70% / 0.15);
+}
+
+/* ===== AI Gradient Utilities ===== */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(245 58% 51%), hsl(270 60% 58%));
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, hsl(245 58% 51%), hsl(188 94% 48%));
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(245 58% 55%), hsl(270 60% 62%), hsl(188 94% 53%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Active Indicator Bar (sidebar) ===== */
+.active-indicator {
+  position: relative;
+}
+.active-indicator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, hsl(245 58% 55%), hsl(188 94% 48%));
+  box-shadow: 0 0 8px hsl(245 58% 51% / 0.5);
+}
+
+/* ===== Smooth Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(228 16% 28%);
+  border-radius: 3px;
+}
+.light ::-webkit-scrollbar-thumb {
+  background: hsl(225 14% 78%);
+}
+
+/* ===== Micro-interaction: Focus Glow ===== */
+*:focus-visible {
+  outline: 2px solid hsl(245 58% 51% / 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== Animations ===== */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px hsl(245 58% 51% / 0.3); }
+  50% { box-shadow: 0 0 20px hsl(245 58% 51% / 0.6); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out both;
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 30%, hsl(0 0% 100% / 0.04) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
 }

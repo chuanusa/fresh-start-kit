@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { getMonthlyDashboardData, type DashboardData } from '@/lib/gas-api';
 import { useToast } from '@/hooks/use-toast';
-import { BarChart3, AlertTriangle, Loader2 } from 'lucide-react';
+import { BarChart3, AlertTriangle, Loader2, TrendingUp, Calendar, Shield } from 'lucide-react';
 
 export function DashboardPage() {
   const now = new Date();
@@ -36,12 +36,17 @@ export function DashboardPage() {
   const maxWorkDays = data?.workDays?.length ? Math.max(...data.workDays.map(d => d.days)) : 1;
   const maxHazards = data?.hazards?.length ? Math.max(...data.hazards.map(h => h.count)) : 1;
 
+  const totalWorkDays = data?.workDays?.reduce((sum, d) => sum + d.days, 0) ?? 0;
+  const totalHazards = data?.hazards?.reduce((sum, h) => sum + h.count, 0) ?? 0;
+  const projectCount = data?.workDays?.length ?? 0;
+
   return (
-    <div className="space-y-6 max-w-5xl">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 max-w-6xl">
+      {/* Header */}
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">每月儀表板</h2>
-          <p className="text-muted-foreground text-sm">統計分析與圖表</p>
+          <h2 className="text-2xl font-bold tracking-tight gradient-text">每月儀表板</h2>
+          <p className="text-muted-foreground text-sm mt-1">統計分析與視覺化圖表</p>
         </div>
         <div className="flex gap-2">
           <Select value={String(year)} onValueChange={(v: string) => setYear(Number(v))}>
@@ -64,69 +69,110 @@ export function DashboardPage() {
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       ) : data ? (
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Work Days Chart */}
-          <Card className="glass-card">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-base">
-                <BarChart3 className="h-5 w-5 text-primary" />
-                各工程出工日數 (Top 20)
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data.workDays?.length ? (
-                <div className="space-y-2">
-                  {data.workDays.slice(0, 20).map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground w-28 truncate text-right" title={item.name}>{item.name}</span>
-                      <div className="flex-1 h-6 bg-muted rounded-md overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-md transition-all duration-500"
-                          style={{ width: `${(item.days / maxWorkDays) * 100}%` }}
-                        />
-                      </div>
-                      <Badge variant="secondary" className="text-xs min-w-[2rem] justify-center">{item.days}</Badge>
-                    </div>
-                  ))}
+        <>
+          {/* Stat Cards */}
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+            <Card className="glass-card hover-3d">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 rounded-xl gradient-primary">
+                  <Calendar className="h-5 w-5 text-white" />
                 </div>
-              ) : (
-                <p className="text-center text-muted-foreground py-8">本月尚無出工資料</p>
-              )}
-            </CardContent>
-          </Card>
+                <div>
+                  <p className="text-xs text-muted-foreground font-medium">總出工日</p>
+                  <p className="text-2xl font-bold">{totalWorkDays}</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="glass-card hover-3d">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 rounded-xl bg-accent/20">
+                  <TrendingUp className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground font-medium">進行中工程</p>
+                  <p className="text-2xl font-bold">{projectCount}</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="glass-card hover-3d">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 rounded-xl bg-destructive/20">
+                  <Shield className="h-5 w-5 text-destructive" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground font-medium">危害紀錄</p>
+                  <p className="text-2xl font-bold">{totalHazards}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Hazards Chart */}
-          <Card className="glass-card">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-base">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
-                整體危害統計
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data.hazards?.length ? (
-                <div className="space-y-2">
-                  {data.hazards.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground w-28 truncate text-right" title={item.type}>{item.type}</span>
-                      <div className="flex-1 h-6 bg-muted rounded-md overflow-hidden">
-                        <div
-                          className="h-full bg-destructive rounded-md transition-all duration-500"
-                          style={{ width: `${(item.count / maxHazards) * 100}%` }}
-                        />
+          {/* Charts */}
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card className="glass-card hover-3d">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <BarChart3 className="h-5 w-5 text-primary" />
+                  各工程出工日數 (Top 20)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {data.workDays?.length ? (
+                  <div className="space-y-2.5">
+                    {data.workDays.slice(0, 20).map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 group">
+                        <span className="text-xs text-muted-foreground w-28 truncate text-right" title={item.name}>{item.name}</span>
+                        <div className="flex-1 h-7 bg-muted/50 rounded-lg overflow-hidden">
+                          <div
+                            className="h-full gradient-primary rounded-lg transition-all duration-700 ease-out group-hover:brightness-110"
+                            style={{ width: `${(item.days / maxWorkDays) * 100}%`, animationDelay: `${i * 50}ms` }}
+                          />
+                        </div>
+                        <Badge variant="secondary" className="text-xs min-w-[2.5rem] justify-center font-mono">{item.days}</Badge>
                       </div>
-                      <Badge variant="secondary" className="text-xs min-w-[2rem] justify-center">{item.count}</Badge>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-muted-foreground py-8">本月尚無危害記錄</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-muted-foreground py-8">本月尚無出工資料</p>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card hover-3d">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <AlertTriangle className="h-5 w-5 text-destructive" />
+                  整體危害統計
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {data.hazards?.length ? (
+                  <div className="space-y-2.5">
+                    {data.hazards.map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 group">
+                        <span className="text-xs text-muted-foreground w-28 truncate text-right" title={item.type}>{item.type}</span>
+                        <div className="flex-1 h-7 bg-muted/50 rounded-lg overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-destructive to-warning rounded-lg transition-all duration-700 ease-out group-hover:brightness-110"
+                            style={{ width: `${(item.count / maxHazards) * 100}%` }}
+                          />
+                        </div>
+                        <Badge variant="secondary" className="text-xs min-w-[2.5rem] justify-center font-mono">{item.count}</Badge>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-muted-foreground py-8">本月尚無危害記錄</p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </>
       ) : (
-        <p className="text-center text-muted-foreground py-20">無資料</p>
+        <div className="text-center py-20 text-muted-foreground">
+          <BarChart3 className="h-12 w-12 mx-auto mb-3 opacity-20" />
+          <p>無資料</p>
+        </div>
       )}
     </div>
   );
