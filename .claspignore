@@ -1,0 +1,29 @@
+# Default ignore
+**
+
+# Allow specific files
+!code.js
+!appsscript.json
+!AppMain.html
+
+# Ignore node_modules and other dev stuff
+node_modules/**
+src/**
+dist/**
+.git/**
+.github/**
+ref/**
+.clasp.json
+.claspignore
+package.json
+package-lock.json
+tsconfig.json
+vite.config.ts
+tailwind.config.ts
+postcss.config.js
+gas-bundle.cjs
+README.md
+build_app.js
+clean_app.js
+fix_encoding.js
+fix_gsi.js

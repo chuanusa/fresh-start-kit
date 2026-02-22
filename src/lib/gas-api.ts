@@ -11,9 +11,36 @@ export interface ApiResponse<T = unknown> {
   message?: string;
 }
 
+declare const google: any;
+
 export async function callGasApi<T = unknown>(action: string, ...args: unknown[]): Promise<T> {
   console.log(`[GAS API] ${action}`, args);
 
+  // Detect if running inside Google Apps Script
+  if (typeof google !== 'undefined' && google?.script?.run) {
+    return new Promise((resolve, reject) => {
+      google.script.run
+        .withSuccessHandler((response: string) => {
+          try {
+            const result: ApiResponse<T> = JSON.parse(response);
+            if (result.status === 'success') {
+              resolve(result.data as T);
+            } else {
+              reject(new Error(result.message || 'API 呼叫失敗'));
+            }
+          } catch (e) {
+            // Handle cases where GAS might return raw data or malformed JSON
+            resolve(response as unknown as T);
+          }
+        })
+        .withFailureHandler((err: Error) => {
+          reject(err);
+        })
+      [action](...args);
+    });
+  }
+
+  // Fallback to fetch (for local dev or external access)
   const response = await fetch(API_URL, {
     method: 'POST',
     body: JSON.stringify({ action, args }),

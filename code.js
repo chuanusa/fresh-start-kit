@@ -207,7 +207,7 @@ const CONFIG = {
 // 初始化與基礎函數
 // ============================================
 function doGet() {
-  return HtmlService.createTemplateFromFile('Index')
+  return HtmlService.createTemplateFromFile('AppMain')
     .evaluate()
     .setTitle('綜合施工處 每日工程日誌系統')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
@@ -4037,4 +4037,64 @@ function archiveOldLogs() {
     Logger.log('archiveOldLogs error: ' + error.toString());
     return { success: false, message: error.toString() };
   }
+}
+
+// ==========================================
+// 🚀 Frontend Bridge (React Compatibility)
+// ==========================================
+
+function getSummaryData(year, month, day) {
+  let dateStr;
+  if (day) {
+    dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  } else {
+    dateStr = Utilities.formatDate(new Date(), 'GMT+8', 'yyyy-MM-dd');
+  }
+  const result = getDailySummaryReport(dateStr, 'all', 'all', 'all', false, getCurrentSession());
+  return JSON.stringify({ status: 'success', data: result });
+}
+
+function getGuestSummaryData(mode) {
+  const date = new Date();
+  if (mode === 'tomorrow') date.setDate(date.getDate() + 1);
+  const dateStr = Utilities.formatDate(date, 'GMT+8', 'yyyy-MM-dd');
+  const result = getDailySummaryReport(dateStr, 'all', 'all', 'all', true);
+  return JSON.stringify({ status: 'success', data: result });
+}
+
+function loadInitialData() {
+  const result = {
+    projects: getActiveProjects(),
+    inspectors: getAllInspectors(),
+    disasterTypes: getDisasterTypes()
+  };
+  return JSON.stringify({ status: 'success', data: result });
+}
+
+function getMonthlyDashboardData(year, month) {
+  const result = getDashboardData();
+  return JSON.stringify({ status: 'success', data: result });
+}
+
+function getProjects() {
+  return JSON.stringify({ status: 'success', data: getActiveProjects() });
+}
+
+function getInspectors() {
+  return JSON.stringify({ status: 'success', data: getAllInspectors() });
+}
+
+function getLogStatus(year, month) {
+  const result = getDailyLogStatus();
+  return JSON.stringify({ status: 'success', data: result });
+}
+
+function changePassword(oldPassword, newPassword) {
+  const session = getCurrentSession();
+  const result = changeUserPassword(session.account, oldPassword, newPassword);
+  return JSON.stringify(result);
+}
+
+function getFilledDates(year, month) {
+  return JSON.stringify({ status: 'success', data: [] });
 }
