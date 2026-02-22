@@ -50,7 +50,17 @@ export async function callGasApi<T = unknown>(action: string, ...args: unknown[]
   console.log(`[GAS API] Response: ${action}`, result);
 
   if (result.status === 'success') {
-    return result.data as T;
+    let data = result.data;
+    // Handle double-encoded JSON strings from GAS
+    if (typeof data === 'string') {
+      try {
+        const parsed = JSON.parse(data);
+        data = parsed?.data !== undefined ? parsed.data : parsed;
+      } catch {
+        // not JSON, keep as-is
+      }
+    }
+    return data as T;
   } else {
     throw new Error(result.message || 'API 呼叫失敗');
   }
