@@ -123,27 +123,32 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
             const Icon = tab.icon;
             const isActive = activeTab === tab.name;
             return (
-              <button
-                key={tab.name}
-                onClick={() => onTabChange(tab.name)}
-                title={collapsed ? tab.label : undefined}
-                className={cn(
-                  'w-full flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 relative',
-                  collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5',
-                  isActive
-                    ? 'gradient-primary text-white shadow-lg shadow-primary/20 active-indicator'
-                    : 'text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+              <div key={tab.name} className="relative group">
+                <button
+                  onClick={() => onTabChange(tab.name)}
+                  className={cn(
+                    'w-full flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 relative',
+                    collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5',
+                    isActive
+                      ? 'gradient-primary text-white shadow-lg shadow-primary/20 active-indicator'
+                      : 'text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                  )}
+                >
+                  <Icon className="h-[18px] w-[18px] shrink-0" />
+                  {!collapsed && <span>{tab.label}</span>}
+                </button>
+                {collapsed && (
+                  <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded-lg bg-popover text-popover-foreground text-xs font-medium shadow-lg border border-border/50 whitespace-nowrap opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 z-50">
+                    {tab.label}
+                  </span>
                 )}
-              >
-                <Icon className="h-[18px] w-[18px] shrink-0" />
-                {!collapsed && <span>{tab.label}</span>}
-              </button>
+              </div>
             );
           })}
         </nav>
 
         {/* Theme Toggle */}
-        <div className="px-3 py-2">
+        <div className="px-3 py-2 relative group">
           <button
             onClick={toggleTheme}
             className={cn(
@@ -154,6 +159,11 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
             {lightMode ? <Moon className="h-[18px] w-[18px]" /> : <Sun className="h-[18px] w-[18px]" />}
             {!collapsed && <span>{lightMode ? '深色模式' : '淺色模式'}</span>}
           </button>
+          {collapsed && (
+            <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded-lg bg-popover text-popover-foreground text-xs font-medium shadow-lg border border-border/50 whitespace-nowrap opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 z-50">
+              {lightMode ? '深色模式' : '淺色模式'}
+            </span>
+          )}
         </div>
 
         {/* User section */}
