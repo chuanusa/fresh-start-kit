@@ -18,14 +18,15 @@ export async function callGasApi<T = unknown>(action: string, ...args: unknown[]
 
   try {
     // For GAS Web Apps, we need to handle the redirect properly.
-    // POST requests containing JSON are usually preflighted (OPTIONS), which GAS doesn't handle natively well unless explicitly configured.
-    // Instead we send a normal POST request with text/plain to avoid preflight
+    // POST requests containing JSON are usually preflighted (OPTIONS), which GAS doesn't natively handle well.
+    // We send a normal POST request with URLSearchParams to firmly bypass all preflight checks.
+    const formData = new URLSearchParams();
+    formData.append("action", action);
+    formData.append("args", JSON.stringify(args));
+
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8",
-      },
-      body: JSON.stringify({ action, args }),
+      body: formData,
     });
 
     if (!response.ok) {

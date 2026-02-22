@@ -3896,9 +3896,22 @@ function getDashboardData() {
 // ==========================================
 function doPost(e) {
   try {
-    const postData = JSON.parse(e.postData.contents);
-    const action = postData.action;
-    const args = postData.args || [];
+    let action, args;
+
+    // 處理不同的 Request Content-Type
+    if (e.postData && e.postData.contents && e.postData.contents.startsWith('{')) {
+      const postData = JSON.parse(e.postData.contents);
+      action = postData.action;
+      args = postData.args || [];
+    } else {
+      // 處理 application/x-www-form-urlencoded，完美避開 CORS preflight
+      action = e.parameter.action;
+      args = e.parameter.args ? JSON.parse(e.parameter.args) : [];
+    }
+
+    if (!action) {
+      throw new Error("Missing action parameter");
+    }
 
     // 檢查是否有這個函數
     if (typeof this[action] === 'function') {
