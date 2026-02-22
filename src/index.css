@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Noto+Sans+TC:wght@300..800&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -89,7 +90,6 @@
 }
 
 /* ===== Global ===== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Noto+Sans+TC:wght@300..800&display=swap');
 
 html {
   color-scheme: dark;
@@ -148,12 +148,14 @@ body {
 .hover-3d {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .hover-3d:hover {
   transform: translateY(-4px) perspective(800px) rotateX(2deg);
   box-shadow:
     0 20px 40px hsl(245 58% 20% / 0.15),
     0 8px 16px hsl(228 30% 4% / 0.2);
 }
+
 .light .hover-3d:hover {
   box-shadow:
     0 20px 40px hsl(225 20% 50% / 0.12),
@@ -180,6 +182,7 @@ body {
 .active-indicator {
   position: relative;
 }
+
 .active-indicator::before {
   content: '';
   position: absolute;
@@ -198,13 +201,16 @@ body {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(228 16% 28%);
   border-radius: 3px;
 }
+
 .light ::-webkit-scrollbar-thumb {
   background: hsl(225 14% 78%);
 }
@@ -218,33 +224,65 @@ body {
 
 /* ===== Animations ===== */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
+
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px hsl(245 58% 51% / 0.3); }
-  50% { box-shadow: 0 0 20px hsl(245 58% 51% / 0.6); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 8px hsl(245 58% 51% / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px hsl(245 58% 51% / 0.6);
+  }
 }
 
 .animate-fade-up {
   animation: fade-up 0.4s ease-out both;
 }
+
 .animate-scale-in {
   animation: scale-in 0.3s ease-out both;
 }
+
 .animate-shimmer {
   background: linear-gradient(90deg, transparent 30%, hsl(0 0% 100% / 0.04) 50%, transparent 70%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
+
 .animate-glow-pulse {
   animation: glow-pulse 2s ease-in-out infinite;
 }
