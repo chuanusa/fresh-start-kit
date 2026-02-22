@@ -25,6 +25,7 @@ import {
   HardHat,
   PanelLeftClose,
   PanelLeftOpen,
+  MoreHorizontal,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -246,30 +247,74 @@ export function AppLayout({ activeTab, onTabChange, children }: AppLayoutProps) 
 
         {/* ===== Mobile Bottom Navigation ===== */}
         <nav className="md:hidden flex items-center justify-around bg-card/80 backdrop-blur-xl border-t border-border px-1 py-1.5 safe-area-bottom">
-          {visibleTabs.slice(0, 5).map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.name;
+          {(() => {
+            const maxVisible = 4;
+            const mainTabs = visibleTabs.slice(0, maxVisible);
+            const overflowTabs = visibleTabs.slice(maxVisible);
+            const isOverflowActive = overflowTabs.some(t => t.name === activeTab);
+
             return (
-              <button
-                key={tab.name}
-                onClick={() => onTabChange(tab.name)}
-                className={cn(
-                  'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 flex-1',
-                  isActive
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
+              <>
+                {mainTabs.map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.name;
+                  return (
+                    <button
+                      key={tab.name}
+                      onClick={() => onTabChange(tab.name)}
+                      className={cn(
+                        'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 flex-1',
+                        isActive ? 'text-primary' : 'text-muted-foreground'
+                      )}
+                    >
+                      <div className={cn(
+                        'p-1.5 rounded-xl transition-all',
+                        isActive && 'gradient-primary shadow-lg shadow-primary/25'
+                      )}>
+                        <Icon className={cn('h-4 w-4', isActive && 'text-white')} />
+                      </div>
+                      <span className="text-[10px] font-medium truncate max-w-full">{tab.label}</span>
+                    </button>
+                  );
+                })}
+                {overflowTabs.length > 0 && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className={cn(
+                        'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 flex-1',
+                        isOverflowActive ? 'text-primary' : 'text-muted-foreground'
+                      )}>
+                        <div className={cn(
+                          'p-1.5 rounded-xl transition-all',
+                          isOverflowActive && 'gradient-primary shadow-lg shadow-primary/25'
+                        )}>
+                          <MoreHorizontal className={cn('h-4 w-4', isOverflowActive && 'text-white')} />
+                        </div>
+                        <span className="text-[10px] font-medium">更多</span>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="mb-2 min-w-[160px] bottom-full">
+                      {overflowTabs.map((tab) => {
+                        const Icon = tab.icon;
+                        return (
+                          <DropdownMenuItem
+                            key={tab.name}
+                            onClick={() => onTabChange(tab.name)}
+                            className={cn(
+                              activeTab === tab.name && 'bg-primary/10 text-primary font-semibold'
+                            )}
+                          >
+                            <Icon className="mr-2 h-4 w-4" />
+                            {tab.label}
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
-              >
-                <div className={cn(
-                  'p-1.5 rounded-xl transition-all',
-                  isActive && 'gradient-primary shadow-lg shadow-primary/25'
-                )}>
-                  <Icon className={cn('h-4 w-4', isActive && 'text-white')} />
-                </div>
-                <span className="text-[10px] font-medium truncate max-w-full">{tab.label}</span>
-              </button>
+              </>
             );
-          })}
+          })()}
         </nav>
       </div>
 
