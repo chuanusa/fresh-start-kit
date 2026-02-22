@@ -7,6 +7,7 @@ import { getSummaryData, getGuestSummaryData, type SummaryData } from '@/lib/gas
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { FileText, CalendarDays, Loader2, Sparkles } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function SummaryReportPage() {
   const { isGuest } = useAuth();
@@ -79,11 +80,23 @@ export function SummaryReportPage() {
       <Card className="glass-card overflow-hidden">
         <CardContent className="p-0">
           {loading ? (
-            <div className="flex items-center justify-center py-32">
-              <div className="relative">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                <div className="absolute inset-0 h-10 w-10 animate-ping rounded-full bg-primary/10" />
+            <div className="p-6 space-y-4">
+              {/* Skeleton Table Header */}
+              <div className="flex gap-4">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <Skeleton key={i} className="h-4 flex-1" />
+                ))}
               </div>
+              {/* Skeleton Rows */}
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="flex gap-4 items-center">
+                  <Skeleton className="h-5 w-20" />
+                  <Skeleton className="h-5 flex-1" />
+                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-6 w-12 rounded-lg" />
+                  <Skeleton className="h-5 flex-1" />
+                </div>
+              ))}
             </div>
           ) : data.length > 0 ? (
             <div className="overflow-x-auto">

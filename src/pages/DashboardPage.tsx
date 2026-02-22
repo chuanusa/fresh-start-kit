@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { getMonthlyDashboardData, type DashboardData } from '@/lib/gas-api';
 import { useToast } from '@/hooks/use-toast';
 import { BarChart3, AlertTriangle, Loader2, TrendingUp, Calendar, Shield, Zap, Activity } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function DashboardPage() {
   const now = new Date();
@@ -69,10 +70,42 @@ export function DashboardPage() {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-32">
-          <div className="relative">
-            <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <div className="absolute inset-0 h-10 w-10 animate-ping rounded-full bg-primary/10" />
+        <div className="space-y-8 stagger-children">
+          {/* Skeleton Stat Cards */}
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-3">
+            {[1, 2, 3].map(i => (
+              <Card key={i} className="glass-card overflow-hidden">
+                <CardContent className="p-6 flex items-center gap-5">
+                  <Skeleton className="h-14 w-14 rounded-2xl" />
+                  <div className="space-y-2 flex-1">
+                    <Skeleton className="h-3 w-20" />
+                    <Skeleton className="h-8 w-16" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          {/* Skeleton Charts */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            {[1, 2].map(i => (
+              <Card key={i} className="glass-card overflow-hidden">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-9 w-9 rounded-xl" />
+                    <Skeleton className="h-4 w-32" />
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {[1, 2, 3, 4, 5].map(j => (
+                    <div key={j} className="flex items-center gap-3">
+                      <Skeleton className="h-3 w-24" />
+                      <Skeleton className="h-8 flex-1 rounded-xl" />
+                      <Skeleton className="h-4 w-8" />
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       ) : data ? (
