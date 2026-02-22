@@ -7,11 +7,11 @@
 /* CSS 變數定義 (Modern SaaS Palette) */
 /* ============================================ */
 :root {
-  /* 主色調 - Tailwind Slate & Blue 啟發 */
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --primary-light: #3b82f6;
-  --primary-lighter: #60a5fa;
+  /* 主色調 - Deep Blue & Sky Blue */
+  --primary: #1E3A8A;
+  --primary-dark: #152e6e;
+  --primary-light: #2563eb;
+  --primary-lighter: #60A5FA;
 
   --secondary: #64748b;
   --secondary-dark: #475569;
@@ -64,7 +64,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 15px rgba(37, 99, 235, 0.3);
+  --shadow-glow: 0 0 15px rgba(30, 58, 138, 0.3);
 
   /* 圓角 (Larger for modern feel) */
   --radius-sm: 6px;
@@ -86,9 +86,37 @@
   --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 深色模式支援 (Dark Mode) */
+/* 深色模式 - class-based toggle + media query fallback */
+body.dark,
+html.dark body {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-glass: rgba(30, 41, 59, 0.85);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+
+  --border-color: #334155;
+  --gray-200: #334155;
+  --gray-300: #475569;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+
+  --primary: #60A5FA;
+  --primary-dark: #3b82f6;
+  --primary-light: #93bbfd;
+
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  body:not(.light) {
     --bg-primary: #0f172a;
     --bg-secondary: #1e293b;
     --bg-tertiary: #334155;
@@ -100,19 +128,70 @@
     --text-light: #64748b;
 
     --border-color: #334155;
+    --gray-200: #334155;
+    --gray-300: #475569;
 
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
 
-    --primary: #3b82f6;
-    --primary-dark: #2563eb;
-  }
+    --primary: #60A5FA;
+    --primary-dark: #3b82f6;
+    --primary-light: #93bbfd;
 
-  body {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   }
+}
+
+/* 深色模式下的玻璃卡片 */
+body.dark .glass-card,
+body.dark .login-card {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(96, 165, 250, 0.15);
+}
+
+body.dark .header {
+  background: rgba(30, 41, 59, 0.98);
+  border-color: rgba(96, 165, 250, 0.15);
+}
+
+body.dark .tabs {
+  background: rgba(30, 41, 59, 0.98);
+  border-color: rgba(96, 165, 250, 0.15);
+}
+
+body.dark .modal-content {
+  background: var(--bg-secondary);
+}
+
+body.dark .user-info-display {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+/* 主題切換按鈕 */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--bg-tertiary);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: rotate(30deg) scale(1.1);
+  box-shadow: var(--shadow-glow);
 }
 
 /* ============================================ */
@@ -164,7 +243,7 @@ body {
 .orb-1 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(30, 58, 138, 0.5) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.6) 0%, transparent 70%);
   top: -250px;
   left: -250px;
   animation-delay: 0s;

@@ -86,9 +86,49 @@ const DEPT_CODE_MAP = {
 };
 
 // ============================================
+// 主題切換 (Dark/Light Mode)
+// ============================================
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('themeToggleBtn');
+  
+  if (body.classList.contains('dark')) {
+    body.classList.remove('dark');
+    body.classList.add('light');
+    if (btn) btn.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  } else {
+    body.classList.remove('light');
+    body.classList.add('dark');
+    if (btn) btn.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  const btn = document.getElementById('themeToggleBtn');
+  
+  if (saved === 'dark') {
+    document.body.classList.add('dark');
+    if (btn) btn.textContent = '☀️';
+  } else if (saved === 'light') {
+    document.body.classList.add('light');
+    if (btn) btn.textContent = '🌙';
+  } else {
+    // Follow system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+      if (btn) btn.textContent = '☀️';
+    }
+  }
+}
+
+// ============================================
 // 初始化 - 訪客模式
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
+  initTheme();
   initGuestMode();
 });
 
