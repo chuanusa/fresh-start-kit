@@ -207,15 +207,8 @@ const CONFIG = {
 // 初始化與基礎函數
 // ============================================
 function doGet() {
-  return HtmlService.createTemplateFromFile('AppMain')
-    .evaluate()
-    .setTitle('綜合施工處 每日工程日誌系統')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-
-function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+  return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "GAS API IS RUNNING. 畫面請前往 GitHub Pages 查看。" }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function getSheet(name) {
