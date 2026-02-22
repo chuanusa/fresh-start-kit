@@ -125,6 +125,9 @@ export interface HolidayInfo {
 export const authenticateUser = (identifier: string, password: string) =>
   callGasApi<LoginResult>('authenticateUser', identifier, password);
 
+export const authenticateGoogleUser = (email: string) =>
+  callGasApi<LoginResult>('authenticateGoogleUser', email);
+
 export const getCurrentSession = () =>
   callGasApi<UserSession>('getCurrentSession');
 

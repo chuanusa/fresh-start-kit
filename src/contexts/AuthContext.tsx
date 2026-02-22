@@ -7,6 +7,7 @@ interface AuthContextType {
   isGuest: boolean;
   isLoading: boolean;
   login: (identifier: string, password: string) => Promise<boolean>;
+  loginWithGoogle: (email: string) => Promise<boolean>;
   logout: () => Promise<void>;
 }
 
@@ -39,6 +40,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [toast]);
 
+  const loginWithGoogle = useCallback(async (email: string) => {
+    setIsLoading(true);
+    try {
+      // Import directly inside the callback to avoid circular dependency issues if any
+      const { authenticateGoogleUser } = await import('@/lib/gas-api');
+      const result = await authenticateGoogleUser(email);
+      if (result.success && result.user) {
+        setUser(result.user);
+        toast({ title: 'Google 登入成功', description: result.message });
+        return true;
+      } else {
+        toast({ title: 'Google 登入失敗', description: result.message, variant: 'destructive' });
+        return false;
+      }
+    } catch (error: unknown) {
+      toast({ title: 'Google 登入錯誤', description: (error as Error).message, variant: 'destructive' });
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [toast]);
+
+
   const logout = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -53,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [toast]);
 
   return (
-    <AuthContext.Provider value={{ user, isGuest, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isGuest, isLoading, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

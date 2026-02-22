@@ -4101,6 +4101,4 @@ function changePassword(oldPassword, newPassword) {
   return JSON.stringify(result);
 }
 
-function getFilledDates(year, month) {
-  return JSON.stringify({ status: 'success', data: [] });
-}
+
