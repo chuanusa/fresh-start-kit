@@ -213,35 +213,58 @@
       <!-- 頁籤：儀表板 -->
       <!-- ============================================ -->
       <div id="dashboard" class="tab-pane">
-        <div
-          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-          <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">總工程數</div>
-            <div id="dash-total-projects" style="font-size: 2.5rem; font-weight: bold; color: #333;">-</div>
+        <!-- 統計卡片 -->
+        <div class="dashboard-stats-grid">
+          <div class="dash-stat-card stat-total">
+            <div class="dash-stat-icon">🏗️</div>
+            <div class="dash-stat-value" id="dash-total-projects">-</div>
+            <div class="dash-stat-label">總工程數</div>
           </div>
-          <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">已填報</div>
-            <div id="dash-filled-count" style="font-size: 2.5rem; font-weight: bold; color: var(--success);">-</div>
+          <div class="dash-stat-card stat-filled">
+            <div class="dash-stat-icon">✅</div>
+            <div class="dash-stat-value" id="dash-filled-count">-</div>
+            <div class="dash-stat-label">已填報</div>
           </div>
-          <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">假日不施工</div>
-            <div id="dash-holiday-nowork" style="font-size: 2.5rem; font-weight: bold; color: var(--info);">-</div>
+          <div class="dash-stat-card stat-holiday">
+            <div class="dash-stat-icon">🏖️</div>
+            <div class="dash-stat-value" id="dash-holiday-nowork">-</div>
+            <div class="dash-stat-label">假日不施工</div>
           </div>
-          <div class="glass-card" style="text-align: center; padding: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">填報率</div>
-            <div id="dash-completion-rate" style="font-size: 2.5rem; font-weight: bold; color: var(--warning);">-</div>
+          <div class="dash-stat-card stat-rate">
+            <div class="dash-stat-icon">📊</div>
+            <div class="dash-stat-value" id="dash-completion-rate">-</div>
+            <div class="dash-stat-label">填報率</div>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
-          <div class="glass-card" style="padding: 1.5rem;">
-            <canvas id="chart-daily-progress"></canvas>
+        <!-- 圖表區 -->
+        <div class="dashboard-charts-grid">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-icon">📈</span>
+              <span class="chart-title">每日填報進度</span>
+            </div>
+            <div class="chart-card-body">
+              <canvas id="chart-daily-progress"></canvas>
+            </div>
           </div>
-          <div class="glass-card" style="padding: 1.5rem;">
-            <canvas id="chart-dept-performance"></canvas>
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <span class="chart-icon">🏢</span>
+              <span class="chart-title">部門績效</span>
+            </div>
+            <div class="chart-card-body">
+              <canvas id="chart-dept-performance"></canvas>
+            </div>
           </div>
-          <div class="glass-card" style="padding: 1.5rem; grid-column: 1 / -1;">
-            <canvas id="chart-disaster-stats" style="max-height: 300px;"></canvas>
+          <div class="chart-card full-width">
+            <div class="chart-card-header">
+              <span class="chart-icon">⚠️</span>
+              <span class="chart-title">災害類型統計</span>
+            </div>
+            <div class="chart-card-body">
+              <canvas id="chart-disaster-stats" style="max-height: 300px;"></canvas>
+            </div>
           </div>
         </div>
       </div>

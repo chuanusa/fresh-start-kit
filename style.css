@@ -827,14 +827,32 @@ body {
   transition: var(--transition);
   outline: none;
   font-weight: 500;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
 }
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.15);
+  box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.12), 0 2px 8px rgba(30, 64, 175, 0.08);
   transform: translateY(-1px);
+  background: var(--bg-primary);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-light);
+  font-weight: 400;
+  font-style: italic;
 }
 
 .form-input:disabled,
@@ -847,13 +865,27 @@ body {
 
 .form-textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
+  line-height: 1.7;
 }
 
 .form-hint {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Form group with label animation */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+}
+
+.form-group .form-label {
+  transition: var(--transition);
 }
 
 /* ============================================ */
@@ -3033,6 +3065,277 @@ body {
   border-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
+}
+
+/* ============================================ */
+/* 時間軸日誌列表設計 */
+/* ============================================ */
+.timeline-list {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lighter) 50%, var(--gray-300) 100%);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: var(--spacing-lg);
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.75rem;
+  top: 1.25rem;
+  width: 14px;
+  height: 14px;
+  background: var(--primary);
+  border: 3px solid var(--bg-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.2);
+  z-index: 1;
+}
+
+.timeline-item.filled::before {
+  background: var(--success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.timeline-item.unfilled::before {
+  background: var(--warning);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.timeline-card {
+  background: var(--bg-primary);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.timeline-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.12);
+  transform: translateX(4px);
+}
+
+.timeline-card.filled {
+  border-left: 4px solid var(--success);
+}
+
+.timeline-card.unfilled {
+  border-left: 4px solid var(--warning);
+}
+
+.timeline-date {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.timeline-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing);
+}
+
+.timeline-card-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.timeline-card-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.timeline-card-badge.filled {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-dark);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.timeline-card-badge.unfilled {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning-dark);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.timeline-card-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.timeline-card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.timeline-card-field .field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.timeline-card-field .field-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ============================================ */
+/* 美化 Dashboard 統計卡片 */
+/* ============================================ */
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.dash-stat-card {
+  background: var(--bg-primary);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.dash-stat-card.stat-total::before { background: linear-gradient(90deg, var(--primary), var(--primary-lighter)); }
+.dash-stat-card.stat-filled::before { background: linear-gradient(90deg, var(--success), var(--success-light)); }
+.dash-stat-card.stat-holiday::before { background: linear-gradient(90deg, var(--info), var(--info-light)); }
+.dash-stat-card.stat-rate::before { background: linear-gradient(90deg, var(--warning), var(--warning-light)); }
+
+.dash-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary);
+}
+
+.dash-stat-icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+  display: inline-block;
+}
+
+.dash-stat-value {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: var(--spacing-xs);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lighter) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dash-stat-card.stat-filled .dash-stat-value {
+  background: linear-gradient(135deg, var(--success) 0%, var(--success-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dash-stat-card.stat-holiday .dash-stat-value {
+  background: linear-gradient(135deg, var(--info) 0%, var(--info-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dash-stat-card.stat-rate .dash-stat-value {
+  background: linear-gradient(135deg, var(--warning) 0%, var(--warning-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dash-stat-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* Dashboard chart containers */
+.dashboard-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.chart-card {
+  background: var(--bg-primary);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.chart-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.12);
+}
+
+.chart-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--bg-secondary);
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.chart-card-header .chart-icon {
+  font-size: 1.5rem;
+}
+
+.chart-card-header .chart-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chart-card-body {
+  padding: var(--spacing-lg);
+}
+
+.chart-card.full-width {
+  grid-column: 1 / -1;
 }
 
 /* ============================================ */
