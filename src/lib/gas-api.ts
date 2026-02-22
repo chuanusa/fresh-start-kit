@@ -16,53 +16,43 @@ declare const google: any;
 export async function callGasApi<T = unknown>(action: string, ...args: unknown[]): Promise<T> {
   console.log(`[GAS API] ${action}`, args);
 
-  // Detect if running inside Google Apps Script
-  if (typeof google !== 'undefined' && google?.script?.run) {
-    return new Promise((resolve, reject) => {
-      google.script.run
-        .withSuccessHandler((response: string) => {
-          try {
-            const result: ApiResponse<T> = JSON.parse(response);
-            if (result.status === 'success') {
-              resolve(result.data as T);
-            } else {
-              reject(new Error(result.message || 'API 呼叫失敗'));
-            }
-          } catch (e) {
-            // Handle cases where GAS might return raw data or malformed JSON
-            resolve(response as unknown as T);
-          }
-        })
-        .withFailureHandler((err: Error) => {
-          reject(err);
-        })
-      [action](...args);
+  try {
+    // For GAS Web Apps, we need to handle the redirect properly.
+    // POST requests containing JSON are usually preflighted (OPTIONS), which GAS doesn't handle natively well unless explicitly configured.
+    // Instead we send a normal POST request with text/plain to avoid preflight
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify({ action, args }),
     });
-  }
 
-  // Fallback to fetch (for local dev or external access)
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    body: JSON.stringify({ action, args }),
-  });
-
-  const result: ApiResponse<T> = await response.json();
-  console.log(`[GAS API] Response: ${action}`, result);
-
-  if (result.status === 'success') {
-    let data = result.data;
-    // Handle double-encoded JSON strings from GAS
-    if (typeof data === 'string') {
-      try {
-        const parsed = JSON.parse(data);
-        data = parsed?.data !== undefined ? parsed.data : parsed;
-      } catch {
-        // not JSON, keep as-is
-      }
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status}`);
     }
-    return data as T;
-  } else {
-    throw new Error(result.message || 'API 呼叫失敗');
+
+    const result: ApiResponse<T> = await response.json();
+    console.log(`[GAS API] Response: ${action}`, result);
+
+    if (result.status === 'success') {
+      let data = result.data;
+      // Handle double-encoded JSON strings from GAS
+      if (typeof data === 'string') {
+        try {
+          const parsed = JSON.parse(data);
+          data = parsed?.data !== undefined ? parsed.data : parsed;
+        } catch {
+          // not JSON, keep as-is
+        }
+      }
+      return data as T;
+    } else {
+      throw new Error(result.message || 'API 呼叫失敗');
+    }
+  } catch (error) {
+    console.error(`[GAS API] Error in ${action}:`, error);
+    throw error;
   }
 }
 
